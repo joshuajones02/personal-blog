@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:       
+  mssql:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    ports:
+      - 1433:1433
+    volumes:
+      - ~/apps/mssql/data:/var/lib/mssqlql/data
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=Password1#
+    
+  #azureblobstorage-emulator:
+  #  image: mcr.microsoft.com/azure-storage/azurite
+  #  container_name: azure-blobstorage-emulator
+  #  ports:
+  #    - "10000:10000" # Blob Endpoint
+  #    - "10001:10001" # Queue Endpoint
+  #    - "10002:10002" # Table Endpoint
+  #  restart: on-failure
+
+  #redis:
+  #  image: redis:4-alpine
+  #  container_name: edi-redis
+  #  command: [ "redis-server", "--bind", "0.0.0.0", "--port", "6379" ]
+  #  environment:
+  #    - ALLOW_EMPTY_PASSWORD=yes
+  #    - REDIS_DISABLE_COMMANDS=FLUSHDB,FLUSHALL
+  #  hostname: redis
+  #  ports:
+  #    - '6379:6379'
+  #  restart: on-failure
