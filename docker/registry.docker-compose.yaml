@@ -1,0 +1,20 @@
+version: '3.3'
+
+services:
+  registry:
+    name: registry
+    restart: always
+    image: registry:latest
+    ports:
+      - 443:443
+    volumes:
+	  - ${path}/certs:/certs
+      - ./config/default/config.yml:/etc/docker/registry/config.yml:ro
+      - ./data:/var/lib/registry:rw
+  environment:
+    -e REGISTRY_HTTP_ADDR=0.0.0.0:443 >
+    -e REGISTRY_HTTP_TLS_CERTIFICATE=/certs/your_domain.pem >
+    -e REGISTRY_HTTP_TLS_KEY=/certs/your_domain.key >
+    #- "STANDALONE=true"
+    #- "MIRROR_SOURCE=https://registry-1.docker.io"
+    #- "MIRROR_SOURCE_INDEX=https://index.docker.io"
