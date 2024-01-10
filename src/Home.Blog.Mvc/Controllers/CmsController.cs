@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using System.Threading.Tasks;
+using Home.Blog.Mvc.Models;
+using Microsoft.AspNetCore.Mvc;
 using Piranha;
 using Piranha.AspNetCore.Services;
 using Piranha.Models;
-using _shannon.Models;
 
-namespace _shannon.Controllers;
+namespace Home.Blog.Mvc.Controllers;
 
 [ApiExplorerSettings(IgnoreApi = true)]
 public class CmsController : Controller

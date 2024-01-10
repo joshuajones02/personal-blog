@@ -1,12 +1,16 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Threading.Tasks;
+using Home.Blog.Mvc.Models;
 using Microsoft.AspNetCore.Mvc;
 using Piranha;
 using Piranha.Extend;
-using Piranha.Extend.Fields;
 using Piranha.Extend.Blocks;
+using Piranha.Extend.Fields;
 using Piranha.Models;
-using _shannon.Models;
 
-namespace _shannon.Controllers;
+namespace Home.Blog.Mvc.Controllers;
 
 /// <summary>
 /// This controller is only used when the project is first started
@@ -84,7 +88,6 @@ public class SetupController : Controller
         docsPage.Published = DateTime.Now;
 
         await _api.Pages.SaveAsync(docsPage);
-
 
         // Add start page
         var startPage = await StandardPage.CreateAsync(_api);

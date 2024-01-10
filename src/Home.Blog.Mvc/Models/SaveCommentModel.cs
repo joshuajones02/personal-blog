@@ -1,4 +1,6 @@
-namespace _shannon.Models;
+namespace Home.Blog.Mvc.Models;
+
+using System;
 
 public class SaveCommentModel
 {

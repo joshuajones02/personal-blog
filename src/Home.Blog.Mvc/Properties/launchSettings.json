@@ -1,12 +1,34 @@
 {
   "profiles": {
-    "Home.Blog.Mvc": {
+    "Local Kestrel": {
+      "commandName": "Project",
+      "launchUrl": "https://localhost:64022",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "BLOB_HOSTNAME": "localhost",
+        "DB_HOSTNAME": "localhost"
+      },
+      "applicationUrl": "https://localhost:64022;http://localhost:64023"
+    },
+    "Remote Kestrel": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "BLOB_HOSTNAME": "192.168.50.158",
+        "DB_HOSTNAME": "192.168.50.158"
       },
       "applicationUrl": "https://localhost:64022;http://localhost:64023"
+    },
+    "Docker": {
+      "commandName": "Docker",
+      "launchBrowser": true,
+      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
+      "environmentVariables": {
+        "ASPNETCORE_URLS": "https://+:443;http://+:80"
+      },
+      "publishAllPorts": true,
+      "useSSL": true
     }
   }
 }
