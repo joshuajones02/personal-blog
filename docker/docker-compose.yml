@@ -11,11 +11,11 @@ services:
       - ACCEPT_EULA=Y
       - SA_PASSWORD=Password1#
 
-  cms:
-    image: cms:latest
-    ports:
-      - 443:443
-      - 80:80
+  # cms:
+  #   image: cms:latest
+  #   ports:
+  #     - 443:443
+  #     - 80:80
 
   azurite:
     image: mcr.microsoft.com/azure-storage/azurite

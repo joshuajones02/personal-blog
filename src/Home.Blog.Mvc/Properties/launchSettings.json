@@ -1,22 +1,34 @@
 {
   "profiles": {
+    "Local WSL2": {
+      "commandName": "WSL2",
+      "launchUrl": "https://localhost:64022",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "local"
+      },
+      "applicationUrl": "https://localhost:64022;http://localhost:64023"
+    },
     "Local Kestrel": {
       "commandName": "Project",
       "launchUrl": "https://localhost:64022",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development",
-        "BLOB_HOSTNAME": "localhost",
-        "DB_HOSTNAME": "localhost"
+        "ASPNETCORE_ENVIRONMENT": "local"
       },
       "applicationUrl": "https://localhost:64022;http://localhost:64023"
     },
-    "Remote Kestrel": {
+    "Internal Kestrel": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development",
-        "BLOB_HOSTNAME": "192.168.50.158",
-        "DB_HOSTNAME": "192.168.50.158"
+        "ASPNETCORE_ENVIRONMENT": "internal"
+      },
+      "applicationUrl": "https://localhost:64022;http://localhost:64023"
+    },
+    "Azure Kestrel": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "azure"
       },
       "applicationUrl": "https://localhost:64022;http://localhost:64023"
     },
@@ -25,6 +37,7 @@
       "launchBrowser": true,
       "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
       "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "local",
         "ASPNETCORE_URLS": "https://+:443;http://+:80"
       },
       "publishAllPorts": true,

@@ -40,9 +40,14 @@ public class SetupController : Controller
         // Get the default site
         var site = await _api.Sites.GetDefaultAsync();
 
+        var test = Directory.GetFiles("seed");
+        var test2 = Directory.GetCurrentDirectory();
+
         // Add media assets
         foreach (var image in Directory.GetFiles("seed"))
         {
+            Console.WriteLine($"Image : {image}");
+
             var info = new FileInfo(image);
             var id = Guid.NewGuid();
             images.Add(info.Name, id);

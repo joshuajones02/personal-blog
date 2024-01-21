@@ -1,6 +1,7 @@
-using System;
+using Home.Blog.Mvc.Settings;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Piranha;
@@ -11,6 +12,12 @@ using Piranha.Manager.Editor;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var env = builder.Environment.EnvironmentName;
+builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                     .AddJsonFile($"appsettings.{env}.json", optional: false, reloadOnChange: true)
+                     .AddConfigurationAsEnvironmentVariables(env)
+                     .AddEnvironmentVariables();
+
 builder.AddPiranha(options =>
 {
     /**
@@ -19,14 +26,14 @@ builder.AddPiranha(options =>
      * this adds a slight overhead it should not be
      * enabled in production.
      */
-    options.AddRazorRuntimeCompilation = true;
-
+    options.AddRazorRuntimeCompilation = env == "local";
     options.UseCms();
     options.UseManager();
 
+    var blobstorage = ApplicationSettings.Instance.BlobStorageConnectionString;
+    System.Console.WriteLine("BlobStorage Connection String: {0}", blobstorage);
     options.UseBlobStorage(
-        //connectionString: blobStorage,
-        connectionString: "DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://127.0.0.1:10000/devstoreaccount1;",
+        connectionString: blobstorage,
            containerName: "uploads",
                   naming: Piranha.Azure.BlobStorageNaming.UniqueFileNames,
                    scope: ServiceLifetime.Singleton);
@@ -34,9 +41,8 @@ builder.AddPiranha(options =>
     options.UseTinyMCE();
     options.UseMemoryCache();
 
-    var databaseHostName = Environment.GetEnvironmentVariable("DB_HOSTNAME");
-    //var connectionString = $"Server=tcp:{databaseHostName},1433;Initial Catalog=piranha;User ID=sa;Password=Password1#;Encrypt=true;TrustServerCertificate=true;";
-    var connectionString = "Server=tcp:localhost,1433;Initial Catalog=piranha;User ID=sa;Password=Password1#;Encrypt=true;TrustServerCertificate=true;";
+    var connectionString = ApplicationSettings.Instance.DatabaseConnectionString; 
+    System.Console.WriteLine("Database Connection String: {0}", connectionString);
     options.UseEF<SQLServerDb>(db => db.UseSqlServer(connectionString));
     options.UseIdentityWithSeed<IdentitySQLServerDb>(db => db.UseSqlServer(connectionString));
 
