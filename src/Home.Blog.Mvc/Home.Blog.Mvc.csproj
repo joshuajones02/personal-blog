@@ -1,21 +1,44 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerfileContext>..\..</DockerfileContext>
+    <Dockerfile>..\..\Dockerfile</Dockerfile>
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="seed\*.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_WebToolingArtifacts Remove="Properties\PublishProfiles\publish-docker-registry.pubxml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="seed\*.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.6" />
     <PackageReference Include="Piranha" Version="10.3.0" />
     <PackageReference Include="Piranha.AspNetCore" Version="10.3.0" />
     <PackageReference Include="Piranha.AspNetCore.Identity.SQLServer" Version="10.3.0" />
     <PackageReference Include="Piranha.AttributeBuilder" Version="10.3.0" />
+    <PackageReference Include="Piranha.Azure.BlobStorage" Version="10.3.0" />
     <PackageReference Include="Piranha.Data.EF.SQLServer" Version="10.3.0" />
     <PackageReference Include="Piranha.ImageSharp" Version="10.3.0" />
-    <PackageReference Include="Piranha.Local.FileStorage" Version="10.3.0" />
     <PackageReference Include="Piranha.Manager" Version="10.3.0" />
     <PackageReference Include="Piranha.Manager.LocalAuth" Version="10.3.0" />
     <PackageReference Include="Piranha.Manager.TinyMCE" Version="10.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Home.Blog.Common\Home.Blog.Common.csproj" />
   </ItemGroup>
 
 </Project>

@@ -9,8 +9,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
 		docker\docker-compose.yml = docker\docker-compose.yml
+		Dockerfile = Dockerfile
 		README.md = README.md
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Home.Blog.Common", "src\Home.Blog.Common\Home.Blog.Common.csproj", "{72CF8B79-35BB-412E-AC4F-8361F083B30B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -22,6 +25,10 @@ Global
 		{39604E0B-F368-48B4-9235-FE7D0E7456C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{39604E0B-F368-48B4-9235-FE7D0E7456C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{39604E0B-F368-48B4-9235-FE7D0E7456C0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{72CF8B79-35BB-412E-AC4F-8361F083B30B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72CF8B79-35BB-412E-AC4F-8361F083B30B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72CF8B79-35BB-412E-AC4F-8361F083B30B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72CF8B79-35BB-412E-AC4F-8361F083B30B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

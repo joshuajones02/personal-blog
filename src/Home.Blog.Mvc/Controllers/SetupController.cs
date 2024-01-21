@@ -1,12 +1,16 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Threading.Tasks;
+using Home.Blog.Mvc.Models;
 using Microsoft.AspNetCore.Mvc;
 using Piranha;
 using Piranha.Extend;
-using Piranha.Extend.Fields;
 using Piranha.Extend.Blocks;
+using Piranha.Extend.Fields;
 using Piranha.Models;
-using _shannon.Models;
 
-namespace _shannon.Controllers;
+namespace Home.Blog.Mvc.Controllers;
 
 /// <summary>
 /// This controller is only used when the project is first started
@@ -36,9 +40,14 @@ public class SetupController : Controller
         // Get the default site
         var site = await _api.Sites.GetDefaultAsync();
 
+        var test = Directory.GetFiles("seed");
+        var test2 = Directory.GetCurrentDirectory();
+
         // Add media assets
         foreach (var image in Directory.GetFiles("seed"))
         {
+            Console.WriteLine($"Image : {image}");
+
             var info = new FileInfo(image);
             var id = Guid.NewGuid();
             images.Add(info.Name, id);
@@ -84,7 +93,6 @@ public class SetupController : Controller
         docsPage.Published = DateTime.Now;
 
         await _api.Pages.SaveAsync(docsPage);
-
 
         // Add start page
         var startPage = await StandardPage.CreateAsync(_api);

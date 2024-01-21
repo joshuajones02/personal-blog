@@ -1,8 +1,8 @@
-version: '3.8'
+version: '2.4'
 
-services:       
+services:
   mssql:
-    image: mcr.microsoft.com/mssql/server:2019-latest
+    image: mcr.microsoft.com/mssql/server:2022-latest
     ports:
       - 1433:1433
     volumes:
@@ -10,15 +10,23 @@ services:
     environment:
       - ACCEPT_EULA=Y
       - SA_PASSWORD=Password1#
-    
-  #azureblobstorage-emulator:
-  #  image: mcr.microsoft.com/azure-storage/azurite
-  #  container_name: azure-blobstorage-emulator
-  #  ports:
-  #    - "10000:10000" # Blob Endpoint
-  #    - "10001:10001" # Queue Endpoint
-  #    - "10002:10002" # Table Endpoint
-  #  restart: on-failure
+
+  # cms:
+  #   image: cms:latest
+  #   ports:
+  #     - 443:443
+  #     - 80:80
+
+  azurite:
+    image: mcr.microsoft.com/azure-storage/azurite
+    container_name: "azurite"
+    hostname: azurite
+    restart: always
+    # https://github.com/Azure/Azurite
+    ports:
+      - "10000:10000" # blob
+      - "10001:10001" # queue
+      - "10002:10002" # table
 
   #redis:
   #  image: redis:4-alpine

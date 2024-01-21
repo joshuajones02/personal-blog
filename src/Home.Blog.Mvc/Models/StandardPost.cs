@@ -1,7 +1,8 @@
+using System.Collections.Generic;
 using Piranha.AttributeBuilder;
 using Piranha.Models;
 
-namespace _shannon.Models;
+namespace Home.Blog.Mvc.Models;
 
 [PostType(Title = "Standard post")]
 public class StandardPost  : Post<StandardPost>

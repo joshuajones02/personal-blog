@@ -1,11 +1,22 @@
+using Home.Blog.Mvc.Settings;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Piranha;
-using Piranha.AttributeBuilder;
 using Piranha.AspNetCore.Identity.SQLServer;
+using Piranha.AttributeBuilder;
 using Piranha.Data.EF.SQLServer;
 using Piranha.Manager.Editor;
 
 var builder = WebApplication.CreateBuilder(args);
+
+var env = builder.Environment.EnvironmentName;
+builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                     .AddJsonFile($"appsettings.{env}.json", optional: false, reloadOnChange: true)
+                     .AddConfigurationAsEnvironmentVariables(env)
+                     .AddEnvironmentVariables();
 
 builder.AddPiranha(options =>
 {
@@ -15,17 +26,23 @@ builder.AddPiranha(options =>
      * this adds a slight overhead it should not be
      * enabled in production.
      */
-    options.AddRazorRuntimeCompilation = true;
-
+    options.AddRazorRuntimeCompilation = env == "local";
     options.UseCms();
     options.UseManager();
 
-    options.UseFileStorage(naming: Piranha.Local.FileStorageNaming.UniqueFolderNames);
+    var blobstorage = ApplicationSettings.Instance.BlobStorageConnectionString;
+    System.Console.WriteLine("BlobStorage Connection String: {0}", blobstorage);
+    options.UseBlobStorage(
+        connectionString: blobstorage,
+           containerName: "uploads",
+                  naming: Piranha.Azure.BlobStorageNaming.UniqueFileNames,
+                   scope: ServiceLifetime.Singleton);
     options.UseImageSharp();
     options.UseTinyMCE();
     options.UseMemoryCache();
 
-    var connectionString = builder.Configuration.GetConnectionString("piranha");
+    var connectionString = ApplicationSettings.Instance.DatabaseConnectionString; 
+    System.Console.WriteLine("Database Connection String: {0}", connectionString);
     options.UseEF<SQLServerDb>(db => db.UseSqlServer(connectionString));
     options.UseIdentityWithSeed<IdentitySQLServerDb>(db => db.UseSqlServer(connectionString));
 
