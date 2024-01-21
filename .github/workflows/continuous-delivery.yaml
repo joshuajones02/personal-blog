@@ -36,6 +36,7 @@ jobs:
 
   push_image:
     name: Publish Image
+    runs-on: ubuntu-latest
     needs: build_image
     steps:
       - name: Login to docker repository
