@@ -16,6 +16,14 @@
       },
       "applicationUrl": "https://localhost:64022;http://localhost:64023"
     },
+    "LAN Kestrel": {
+      "commandName": "Project",
+      "launchUrl": "https://localhost:64022",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "lan"
+      },
+      "applicationUrl": "https://localhost:64022;http://localhost:64023"
+    },
     "Internal Kestrel": {
       "commandName": "Project",
       "launchBrowser": true,

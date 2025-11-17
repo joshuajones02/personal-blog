@@ -1,4 +1,5 @@
 using Home.Blog.Mvc.Settings;
+using Home.Blog.Mvc.Storage;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -30,19 +31,18 @@ builder.AddPiranha(options =>
     options.UseCms();
     options.UseManager();
 
-    var blobstorage = ApplicationSettings.Instance.BlobStorageConnectionString;
-    System.Console.WriteLine("BlobStorage Connection String: {0}", blobstorage);
-    options.UseBlobStorage(
-        connectionString: blobstorage,
-           containerName: "uploads",
-                  naming: Piranha.Azure.BlobStorageNaming.UniqueFileNames,
-                   scope: ServiceLifetime.Singleton);
+    var fileStorage = FileStorageSettings.Instance;
+    options.UseMinioStorage(
+        connectionString: fileStorage.ConnectionString,
+        bucketName: fileStorage.Bucket,
+        naming: MinioStorageNaming.UniqueFileNames,
+        scope: ServiceLifetime.Singleton);
+
     options.UseImageSharp();
     options.UseTinyMCE();
     options.UseMemoryCache();
 
-    var connectionString = ApplicationSettings.Instance.DatabaseConnectionString; 
-    System.Console.WriteLine("Database Connection String: {0}", connectionString);
+    var connectionString = DatabaseSettings.Instance.ConnectionString; 
     options.UseEF<SQLServerDb>(db => db.UseSqlServer(connectionString));
     options.UseIdentityWithSeed<IdentitySQLServerDb>(db => db.UseSqlServer(connectionString));
 
@@ -90,4 +90,4 @@ app.UsePiranha(options =>
     options.UseIdentity();
 });
 
-app.Run();
+await app.RunAsync();

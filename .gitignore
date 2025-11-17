@@ -399,5 +399,6 @@ FodyWeavers.xsd
 **/wwwroot/uploads
 
 # Overrides
+.data/
 appsettings.*.json
 .env
