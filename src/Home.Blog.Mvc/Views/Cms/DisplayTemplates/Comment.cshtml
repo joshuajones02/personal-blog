@@ -1,20 +1,20 @@
 @model Piranha.Models.Comment
 
-<div class="row comment mb-4">
-    <div class="col-2">
-        <img class="rounded img-fluid" src="@WebApp.GetGravatarUrl(Model.Email, 160)" alt="@Model.Author">
-    </div>
-    <div class="col-10">
-        @if (!string.IsNullOrEmpty(Model.Url))
-        {
-            <h5><a href="@Model.Url" target="_blank">@Model.Author</a> - <small>@Model.Created.ToLongDateString()</small></h5>
-        }
-        else
-        {
-            <h5>@Model.Author - <small>@Model.Created.ToLongDateString()</small></h5>
-        }
-        <p>
-            @Model.Body
-        </p>
+<div class="comment">
+    <div class="row align-items-start g-3">
+        <div class="col-auto">
+            <img class="rounded" src="@WebApp.GetGravatarUrl(Model.Email, 80)" alt="@Model.Author" width="50" height="50">
+        </div>
+        <div class="col">
+            @if (!string.IsNullOrEmpty(Model.Url))
+            {
+                <h5><a href="@Model.Url" target="_blank" rel="noopener">@Model.Author</a> <small>@Model.Created.ToString("MMM d, yyyy")</small></h5>
+            }
+            else
+            {
+                <h5>@Model.Author <small>@Model.Created.ToString("MMM d, yyyy")</small></h5>
+            }
+            <p>@Model.Body</p>
+        </div>
     </div>
 </div>

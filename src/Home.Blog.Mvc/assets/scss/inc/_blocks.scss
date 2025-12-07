@@ -1,10 +1,10 @@
 .block {
-    padding: 0 0 3rem;
+    padding: 0 0 3.5rem;
 
     img {
         border-radius: $radius-lg;
         box-shadow: $shadow-md;
-        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        transition: all 0.4s ease;
 
         &:hover {
             box-shadow: $shadow-lg;
@@ -25,6 +25,7 @@
         // Two column layout
         .row {
             align-items: center;
+            gap: 0;
         }
     }
 
@@ -41,8 +42,8 @@
 
         .carousel-control-prev,
         .carousel-control-next {
-            width: 3.5rem;
-            height: 3.5rem;
+            width: 3rem;
+            height: 3rem;
             background: #fff;
             border-radius: 50%;
             top: 50%;
@@ -50,17 +51,17 @@
             opacity: 0;
             transition: all 0.3s ease;
             box-shadow: $shadow-md;
-            margin: 0 1rem;
+            margin: 0 1.5rem;
 
             .carousel-control-prev-icon,
             .carousel-control-next-icon {
                 filter: invert(1) grayscale(100);
-                width: 1rem;
-                height: 1rem;
+                width: 0.875rem;
+                height: 0.875rem;
             }
 
             &:hover {
-                background: $primary;
+                background: $teal;
                 
                 .carousel-control-prev-icon,
                 .carousel-control-next-icon {
@@ -83,13 +84,13 @@
                 border-radius: 50%;
                 border: 2px solid #fff;
                 background: transparent;
-                opacity: 0.7;
+                opacity: 0.6;
                 transition: all 0.3s ease;
+                margin: 0 4px;
 
                 &.active {
                     background: #fff;
                     opacity: 1;
-                    transform: scale(1.2);
                 }
             }
         }
@@ -100,48 +101,71 @@
     &.text-block {
         p {
             font-size: 1.1rem;
-            line-height: 2;
+            line-height: 1.9;
             color: $dark-soft;
+        }
+
+        h2 {
+            margin-top: 2.5rem;
+            margin-bottom: 1.25rem;
+        }
+
+        h3 {
+            margin-top: 2rem;
+            margin-bottom: 1rem;
         }
 
         ul, ol {
             padding-left: 1.5rem;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.75rem;
 
             li {
-                margin-bottom: 0.5rem;
+                margin-bottom: 0.6rem;
                 line-height: 1.8;
                 color: $dark-soft;
             }
         }
 
         a {
-            color: $primary;
+            color: $teal;
             text-decoration: underline;
-            text-decoration-color: rgba($primary, 0.3);
+            text-decoration-color: rgba($teal, 0.3);
             text-underline-offset: 3px;
             transition: text-decoration-color 0.3s ease;
 
             &:hover {
-                text-decoration-color: $primary;
+                text-decoration-color: $teal;
             }
         }
     }
 
     &.quote-block {
-        padding: 2rem 0;
+        padding: 2.5rem 0;
     }
 
     &.separator-block {
-        padding: 1rem 0;
+        padding: 1.5rem 0;
         
         hr {
             border: none;
-            height: 3px;
-            background: $gradient-primary;
+            height: 2px;
+            background: $gray-light;
             border-radius: $radius-full;
-            max-width: 100px;
+            max-width: 80px;
             margin: 2rem auto;
+            position: relative;
+
+            &::before {
+                content: '';
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%, -50%);
+                width: 8px;
+                height: 8px;
+                background: $teal;
+                border-radius: 50%;
+            }
         }
     }
 }

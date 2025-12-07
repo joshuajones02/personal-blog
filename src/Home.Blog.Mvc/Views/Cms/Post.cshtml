@@ -8,25 +8,17 @@
     @WebApp.MetaTags(Model)
 }
 
-<header @(hasImage ? "class=has-image" : "") @(hasImage ? $"style=background-image:url({ @Url.Content(WebApp.Media.ResizeImage(Model.PrimaryImage, 1920, 400)) })" : "")>
+<header @(hasImage ? "class=has-image" : "") @(hasImage ? $"style=background-image:url({ @Url.Content(WebApp.Media.ResizeImage(Model.PrimaryImage, 1920, 700)) })" : "")>
     <div class="dimmer"></div>
     <div class="container text-center">
-        <h1>@Model.Title</h1>
-        <p class="post-meta">
+        <p class="post-meta mb-3">
             <span>
-                In <a href="@archive.Permalink/category/@Model.Category.Slug">@Model.Category.Title</a>
-            </span>
-            <span>
-                Tags
-                @foreach (var tag in Model.Tags)
-                {
-                    <a href="@archive.Permalink/tag/@tag.Slug">#@tag.Slug</a>
-                }
+                <a href="@archive.Permalink/category/@Model.Category.Slug">@Model.Category.Title</a>
             </span>
             @if (Model.IsPublished)
             {
                 <span>
-                    Published @Model.Published.Value.ToShortDateString()
+                    @Model.Published.Value.ToString("MMMM d, yyyy")
                 </span>
             }
             @if (Model.EnableComments && Model.CommentCount > 0)
@@ -36,12 +28,22 @@
                 </span>
             }
         </p>
+        <h1>@Model.Title</h1>
         @if (!string.IsNullOrWhiteSpace(Model.Excerpt))
         {
             <div class="row justify-content-center">
                 <div class="col-lg-8 lead">
                     @Html.Raw(Model.Excerpt)
                 </div>
+            </div>
+        }
+        @if (Model.Tags.Any())
+        {
+            <div class="mt-3">
+                @foreach (var tag in Model.Tags)
+                {
+                    <a href="@archive.Permalink/tag/@tag.Slug" class="tag">#@tag.Slug</a>
+                }
             </div>
         }
     </div>
@@ -52,49 +54,55 @@
     {
         <div class="block @block.CssName()">
             <div class="container">
-                @Html.DisplayFor(m => block, block.GetType().Name)
+                <div class="row justify-content-center">
+                    <div class="col-lg-9">
+                        @Html.DisplayFor(m => block, block.GetType().Name)
+                    </div>
+                </div>
             </div>
         </div>
     }
     @if (Model.EnableComments)
     {
         <div id="comments" class="container comments">
-            @if (Model.IsCommentsOpen)
-            {
-                <div class="alert alert-comment mt-2 mb-5">
-                    <form action="@Model.Permalink/comment" method="post">
-                        @Html.AntiForgeryToken()
-                        @Html.Hidden("Id", Model.Id)
+            <div class="row justify-content-center">
+                <div class="col-lg-9">
+                    @if (Model.IsCommentsOpen)
+                    {
+                        <div class="alert alert-comment mt-2 mb-5">
+                            <form action="@Model.Permalink/comment" method="post">
+                                @Html.AntiForgeryToken()
+                                @Html.Hidden("Id", Model.Id)
 
-                        <h3 class="mb-3">Leave a comment</h3>
-                        <p class="mb-4">
-                            Please note that we won't show your email to others, or use it for sending
-                            unwanted emails. We will only use it to render your Gravatar image and to
-                            validate you as a real person.
-                        </p>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <input name="CommentAuthor" type="text" class="form-control" placeholder="Your name">
+                                <h3>Leave a Comment</h3>
+                                <p class="mb-4 text-muted">
+                                    Your email won't be shared publicly. We'll only use it for your Gravatar image.
+                                </p>
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <input name="CommentAuthor" type="text" class="form-control" placeholder="Your name" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input name="CommentEmail" type="email" class="form-control" placeholder="Your email address" required>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-md-6">
-                                <input name="CommentEmail" type="text" class="form-control" placeholder="Your email address">
-                            </div>
+                                <div class="form-group mt-3">
+                                    <input name="CommentUrl" type="url" class="form-control" placeholder="Website (optional)">
+                                </div>
+                                <div class="form-group mt-3">
+                                    <textarea name="CommentBody" rows="5" class="form-control" placeholder="Share your thoughts..." required></textarea>
+                                </div>
+                                <div class="form-group text-start mt-3">
+                                    <button class="btn btn-primary">Post Comment</button>
+                                </div>
+                            </form>
                         </div>
-                        <div class="form-group">
-                            <input name="CommentUrl" type="text" class="form-control" placeholder="An (optional) URL to your website">
-                        </div>
-                        <div class="form-group">
-                            <textarea name="CommentBody" rows="6" class="form-control" placeholder="Your awesome comment"></textarea>
-                        </div>
-                        <div class="form-group text-left">
-                            <button class="btn btn-success">Post Comment</button>
-                        </div>
-                    </form>
+                    }
+                    @Html.DisplayFor(m => m.Comments)
                 </div>
-            }
-            @Html.DisplayFor(m => m.Comments)
+            </div>
         </div>
     }
 </main>

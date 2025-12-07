@@ -3,28 +3,18 @@
     border: none;
     border-radius: $radius-xl;
     box-shadow: $shadow-md;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.4s ease;
     overflow: hidden;
     position: relative;
 
-    &::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 4px;
-        background: $gradient-primary;
-        opacity: 0;
-        transition: opacity 0.3s ease;
-    }
-
     &:hover {
-        transform: translateY(-8px);
-        box-shadow: $shadow-xl;
+        transform: translateY(-6px);
+        box-shadow: $shadow-lg;
 
-        &::before {
-            opacity: 1;
+        .card-img-wrapper img,
+        .card-img,
+        .card-img-top {
+            transform: scale(1.05);
         }
     }
 
@@ -35,8 +25,11 @@
         &::after {
             content: '';
             position: absolute;
-            inset: 0;
-            background: linear-gradient(180deg, transparent 50%, rgba($dark, 0.1) 100%);
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 50%;
+            background: linear-gradient(to top, rgba($dark, 0.3), transparent);
             opacity: 0;
             transition: opacity 0.3s ease;
         }
@@ -48,43 +41,39 @@
 
     .card-img, .card-img-top {
         border-radius: 0;
-        transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    &:hover .card-img,
-    &:hover .card-img-top {
-        transform: scale(1.08);
+        transition: transform 0.5s ease;
     }
 
     .card-body {
-        padding: 2rem;
+        padding: 1.75rem;
         position: relative;
     }
 
     .card-title {
+        font-family: 'DM Serif Display', Georgia, serif;
         font-size: 1.35rem;
+        font-weight: 400;
         margin-bottom: 0.75rem;
-        font-weight: 700;
         
         a {
             color: $dark;
             
             &:hover {
-                color: $primary;
+                color: $teal;
             }
         }
     }
 
     .card-text {
         color: $gray;
-        line-height: 1.75;
+        line-height: 1.7;
         font-size: 1rem;
     }
 
     .card-meta {
-        font-size: 0.8rem;
+        font-size: 0.85rem;
         color: $gray;
-        margin-bottom: 0.75rem;
+        margin-bottom: 1rem;
         display: flex;
         align-items: center;
         gap: 1rem;
@@ -93,25 +82,67 @@
     .card-footer {
         background: $gray-lighter;
         border: none;
-        padding: 1.25rem 2rem;
+        padding: 1.25rem 1.75rem;
     }
 }
 
-// Glass card variant
-.card-glass {
-    background: rgba(255, 255, 255, 0.7);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.3);
+// Card with category badge
+.card-badge {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    background: $teal;
+    color: #fff;
+    padding: 0.35rem 0.85rem;
+    border-radius: $radius-full;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    z-index: 2;
+}
+
+// Horizontal card variant
+.card-horizontal {
+    display: flex;
+    flex-direction: row;
+
+    .card-img-wrapper {
+        flex: 0 0 40%;
+        max-width: 40%;
+    }
+
+    .card-body {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    @media (max-width: 768px) {
+        flex-direction: column;
+
+        .card-img-wrapper {
+            flex: none;
+            max-width: 100%;
+        }
+    }
+}
+
+// Featured card with accent border
+.card-featured {
+    border-left: 4px solid $teal;
 
     &:hover {
-        background: rgba(255, 255, 255, 0.85);
+        border-left-color: $sunset;
     }
 }
 
-// Featured card
-.card-featured {
-    border: 2px solid transparent;
-    background: linear-gradient(#fff, #fff) padding-box,
-                $gradient-primary border-box;
+// Warm background card
+.card-warm {
+    background: $cream;
+    
+    &:hover {
+        background: #fff;
+    }
 }

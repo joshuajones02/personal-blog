@@ -1,40 +1,61 @@
-// Modern Slate Blue & Coral color palette
-$primary: #3b82f6;
-$primary-dark: #2563eb;
-$primary-light: #60a5fa;
-$primary-lighter: #bfdbfe;
+// Adventure Travel Blog Color Palette
+$teal: #0d9488;
+$teal-dark: #0f766e;
+$teal-light: #2dd4bf;
+$teal-lighter: #99f6e4;
 
-$accent: #f97316;
-$accent-dark: #ea580c;
-$accent-light: #fb923c;
+$sunset: #f59e0b;
+$sunset-dark: #d97706;
+$sunset-light: #fbbf24;
 
-$dark: #0f172a;
-$dark-soft: #334155;
-$light: #f8fafc;
-$light-warm: #fffbeb;
-$gray: #64748b;
-$gray-light: #e2e8f0;
-$gray-lighter: #f1f5f9;
+$coral: #f43f5e;
+$coral-dark: #e11d48;
+
+$earth: #78716c;
+$earth-dark: #57534e;
+$earth-light: #a8a29e;
+
+$cream: #fefce8;
+$sand: #fef3c7;
+$dark: #1c1917;
+$dark-soft: #44403c;
+$light: #fafaf9;
+$gray: #78716c;
+$gray-light: #e7e5e4;
+$gray-lighter: #f5f5f4;
+
+// Primary colors
+$primary: $teal;
+$primary-dark: $teal-dark;
+$primary-light: $teal-light;
+$primary-lighter: $teal-lighter;
+$accent: $sunset;
+$accent-dark: $sunset-dark;
+$accent-light: $sunset-light;
 
 // Gradient definitions
-$gradient-primary: linear-gradient(135deg, $primary 0%, $primary-dark 100%);
-$gradient-accent: linear-gradient(135deg, $accent 0%, $accent-dark 100%);
-$gradient-hero: linear-gradient(135deg, rgba($dark, 0.85) 0%, rgba($dark-soft, 0.75) 50%, rgba($primary-dark, 0.5) 100%);
-$gradient-subtle: linear-gradient(180deg, $light 0%, $gray-lighter 100%);
+$gradient-primary: linear-gradient(135deg, $teal 0%, $teal-dark 100%);
+$gradient-accent: linear-gradient(135deg, $sunset 0%, $sunset-dark 100%);
+$gradient-sunset: linear-gradient(135deg, $coral 0%, $sunset 50%, $sunset-light 100%);
+$gradient-hero: linear-gradient(180deg, rgba($dark, 0.4) 0%, rgba($dark, 0.7) 100%);
+$gradient-subtle: linear-gradient(180deg, $light 0%, $cream 100%);
+$gradient-warm: linear-gradient(135deg, $sand 0%, $cream 100%);
 
 // Shadows
-$shadow-sm: 0 1px 3px rgba($dark, 0.08);
-$shadow-md: 0 4px 20px rgba($dark, 0.08);
-$shadow-lg: 0 10px 40px rgba($dark, 0.12);
-$shadow-xl: 0 25px 60px rgba($dark, 0.18);
-$shadow-primary: 0 8px 30px rgba($primary, 0.2);
-$shadow-accent: 0 8px 30px rgba($accent, 0.2);
+$shadow-sm: 0 1px 2px rgba($dark, 0.05);
+$shadow-md: 0 4px 15px rgba($dark, 0.07);
+$shadow-lg: 0 10px 30px rgba($dark, 0.1);
+$shadow-xl: 0 20px 50px rgba($dark, 0.15);
+$shadow-primary: 0 8px 25px rgba($teal, 0.25);
+$shadow-accent: 0 8px 25px rgba($sunset, 0.25);
+$shadow-warm: 0 10px 40px rgba($sunset, 0.1);
 
 // Border radius
-$radius-sm: 0.5rem;
-$radius-md: 0.75rem;
-$radius-lg: 1rem;
-$radius-xl: 1.5rem;
+$radius-sm: 0.375rem;
+$radius-md: 0.5rem;
+$radius-lg: 0.75rem;
+$radius-xl: 1rem;
+$radius-2xl: 1.5rem;
 $radius-full: 9999px;
 
 * {
@@ -42,14 +63,15 @@ $radius-full: 9999px;
 }
 
 body {
-    padding-top: 5rem;
-    background: $gradient-subtle;
+    padding-top: 0;
+    background: $light;
     color: $dark-soft;
     min-height: 100vh;
 }
 
 main {
-    padding: 4rem 0;
+    padding: 5rem 0;
+    position: relative;
 }
 
 img {
@@ -58,101 +80,141 @@ img {
 }
 
 a {
-    color: $primary;
-    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    color: $teal;
+    transition: all 0.3s ease;
     text-decoration: none;
 
     &:hover {
-        color: $primary-dark;
+        color: $teal-dark;
     }
 }
 
 ::selection {
-    background: rgba($primary, 0.15);
-    color: $primary-dark;
+    background: rgba($teal, 0.2);
+    color: $teal-dark;
 }
 
 .container {
-    max-width: 1140px;
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
+    max-width: 1200px;
+    padding-left: 2rem;
+    padding-right: 2rem;
 }
 
 // Utility classes
 .text-gradient {
-    background: $gradient-primary;
+    background: $gradient-sunset;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
 }
 
 .bg-blur {
-    backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+}
+
+.bg-warm {
+    background: $gradient-warm;
 }
 
 // Divider
 hr {
     border: none;
-    height: 1px;
+    height: 2px;
     background: linear-gradient(90deg, transparent, $gray-light, transparent);
-    margin: 2rem 0;
+    margin: 3rem 0;
+}
+
+// Decorative elements
+.decoration-dots {
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    background-image: radial-gradient($teal-lighter 2px, transparent 2px);
+    background-size: 12px 12px;
+    opacity: 0.5;
 }
 
 // Footer
 footer {
     background: $dark;
-    color: rgba(255, 255, 255, 0.7);
-    padding: 4rem 0;
-    margin-top: 4rem;
+    color: rgba(255, 255, 255, 0.8);
+    padding: 5rem 0 3rem;
+    margin-top: 0;
+    position: relative;
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 6px;
+        background: $gradient-sunset;
+    }
 
     .footer-content {
         display: flex;
         flex-direction: column;
         align-items: center;
         text-align: center;
-        gap: 1.5rem;
+        gap: 2rem;
     }
 
     .footer-brand {
         h5 {
             color: #fff;
-            font-size: 1.25rem;
-            margin-bottom: 0.5rem;
+            font-family: 'Caveat', cursive;
+            font-size: 2rem;
+            margin-bottom: 0.75rem;
+            font-weight: 700;
         }
 
         p {
             color: rgba(255, 255, 255, 0.5);
             margin: 0;
-            font-size: 0.95rem;
+            font-size: 1rem;
+            letter-spacing: 0.02em;
         }
     }
 
     .footer-links {
         p {
             margin: 0;
-            font-size: 0.875rem;
+            font-size: 0.9rem;
             color: rgba(255, 255, 255, 0.4);
         }
 
         a {
-            color: $primary-light;
+            color: $teal-light;
             transition: color 0.3s ease;
-
+            
             &:hover {
                 color: #fff;
             }
         }
     }
 
-    // Decorative top border
-    &::before {
-        content: '';
-        display: block;
-        height: 4px;
-        background: $gradient-primary;
-        margin-bottom: 0;
-        position: relative;
-        top: -4rem;
+    .social-links {
+        display: flex;
+        gap: 1rem;
+        margin-top: 0.5rem;
+
+        a {
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            transition: all 0.3s ease;
+
+            &:hover {
+                background: $teal;
+                transform: translateY(-3px);
+            }
+        }
     }
 }
