@@ -1,24 +1,134 @@
 body {
-    font-family: Lato,sans-serif;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 1rem;
+    line-height: 1.75;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-feature-settings: 'kern' 1, 'liga' 1;
 }
+
 h1, h2, h3, h4, h5, h6 {
-    font-family: Raleway,sans-serif;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 800;
+    line-height: 1.2;
+    color: $dark;
+    letter-spacing: -0.03em;
+    margin-bottom: 1rem;
 }
+
+h1 { 
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    line-height: 1.1;
+}
+h2 { 
+    font-size: clamp(2rem, 4vw, 2.75rem); 
+}
+h3 { 
+    font-size: clamp(1.5rem, 3vw, 2rem); 
+}
+h4 {
+    font-size: 1.35rem;
+}
+
+p {
+    color: $gray;
+    margin-bottom: 1.5rem;
+    font-size: 1.05rem;
+}
+
+strong {
+    color: $dark-soft;
+    font-weight: 600;
+}
+
 blockquote {
-    color: #999;
-    font-size: 1.5rem;
-    font-weight: 300;
+    color: $dark-soft;
+    font-size: 1.4rem;
+    font-weight: 400;
+    font-style: italic;
     margin: 3rem auto;
-    width: 80%;
-}
-.navbar-brand {
-    small {
-        font-family: Lato,sans-serif;
-        font-size: 75%;
-        font-weight: 400;
-        margin-left: .5rem;
+    padding: 2rem 2.5rem;
+    position: relative;
+    background: linear-gradient(135deg, rgba($primary-lighter, 0.3) 0%, rgba($accent-light, 0.1) 100%);
+    border-radius: $radius-lg;
+    border: none;
+    width: 95%;
+
+    &::before {
+        content: '\201C';
+        position: absolute;
+        top: -0.5rem;
+        left: 1.5rem;
+        font-size: 5rem;
+        font-family: Georgia, serif;
+        color: $primary;
+        opacity: 0.3;
+        line-height: 1;
+    }
+
+    cite {
+        display: block;
+        margin-top: 1.5rem;
+        font-size: 0.9rem;
+        font-style: normal;
+        color: $gray;
+        
+        &::before {
+            content: '\2014 ';
+        }
     }
 }
+
+.navbar-brand {
+    font-weight: 800;
+    font-size: 1.15rem;
+    letter-spacing: -0.02em;
+    
+    small {
+        font-family: 'Inter', sans-serif;
+        font-size: 60%;
+        font-weight: 500;
+        margin-left: 0.75rem;
+        padding: 0.2rem 0.6rem;
+        background: rgba($primary, 0.1);
+        color: $primary;
+        border-radius: $radius-full;
+        vertical-align: middle;
+    }
+}
+
 .lead {
-    font-size: 1.2rem;
+    font-size: clamp(1.15rem, 2vw, 1.35rem);
+    font-weight: 400;
+    color: $gray;
+    line-height: 1.85;
+}
+
+// Text sizes
+.text-sm { font-size: 0.875rem; }
+.text-lg { font-size: 1.125rem; }
+.text-xl { font-size: 1.25rem; }
+
+// Code styling
+code {
+    font-family: 'JetBrains Mono', 'Fira Code', monospace;
+    font-size: 0.875em;
+    padding: 0.2rem 0.5rem;
+    background: rgba($primary, 0.08);
+    color: $primary-dark;
+    border-radius: $radius-sm;
+}
+
+pre {
+    background: $dark;
+    color: $light;
+    padding: 1.5rem;
+    border-radius: $radius-md;
+    overflow-x: auto;
+    
+    code {
+        background: none;
+        color: inherit;
+        padding: 0;
+    }
 }

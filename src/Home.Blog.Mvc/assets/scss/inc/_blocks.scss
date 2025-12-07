@@ -1,25 +1,147 @@
 .block {
-    padding: 0 0 1.5rem;
+    padding: 0 0 3rem;
 
     img {
-        border-radius: .25rem;
+        border-radius: $radius-lg;
+        box-shadow: $shadow-md;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+
+        &:hover {
+            box-shadow: $shadow-lg;
+            transform: translateY(-4px);
+        }
     }
 
     &.column-block {
         .col-md:not(:last-child) {
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
         }
 
         img {
             height: 100%;
             object-fit: cover;
         }
+
+        // Two column layout
+        .row {
+            align-items: center;
+        }
     }
 
     &.image-gallery-block {
         .carousel {
-            border-radius: .25rem;
+            border-radius: $radius-xl;
             overflow: hidden;
+            box-shadow: $shadow-lg;
+        }
+
+        .carousel-inner {
+            border-radius: $radius-xl;
+        }
+
+        .carousel-control-prev,
+        .carousel-control-next {
+            width: 3.5rem;
+            height: 3.5rem;
+            background: #fff;
+            border-radius: 50%;
+            top: 50%;
+            transform: translateY(-50%);
+            opacity: 0;
+            transition: all 0.3s ease;
+            box-shadow: $shadow-md;
+            margin: 0 1rem;
+
+            .carousel-control-prev-icon,
+            .carousel-control-next-icon {
+                filter: invert(1) grayscale(100);
+                width: 1rem;
+                height: 1rem;
+            }
+
+            &:hover {
+                background: $primary;
+                
+                .carousel-control-prev-icon,
+                .carousel-control-next-icon {
+                    filter: none;
+                }
+            }
+        }
+
+        .carousel:hover .carousel-control-prev,
+        .carousel:hover .carousel-control-next {
+            opacity: 1;
+        }
+
+        .carousel-indicators {
+            bottom: 1.5rem;
+
+            button {
+                width: 10px;
+                height: 10px;
+                border-radius: 50%;
+                border: 2px solid #fff;
+                background: transparent;
+                opacity: 0.7;
+                transition: all 0.3s ease;
+
+                &.active {
+                    background: #fff;
+                    opacity: 1;
+                    transform: scale(1.2);
+                }
+            }
+        }
+    }
+
+    &.html-block,
+    &.markdown-block,
+    &.text-block {
+        p {
+            font-size: 1.1rem;
+            line-height: 2;
+            color: $dark-soft;
+        }
+
+        ul, ol {
+            padding-left: 1.5rem;
+            margin-bottom: 1.5rem;
+
+            li {
+                margin-bottom: 0.5rem;
+                line-height: 1.8;
+                color: $dark-soft;
+            }
+        }
+
+        a {
+            color: $primary;
+            text-decoration: underline;
+            text-decoration-color: rgba($primary, 0.3);
+            text-underline-offset: 3px;
+            transition: text-decoration-color 0.3s ease;
+
+            &:hover {
+                text-decoration-color: $primary;
+            }
+        }
+    }
+
+    &.quote-block {
+        padding: 2rem 0;
+    }
+
+    &.separator-block {
+        padding: 1rem 0;
+        
+        hr {
+            border: none;
+            height: 3px;
+            background: $gradient-primary;
+            border-radius: $radius-full;
+            max-width: 100px;
+            margin: 2rem auto;
         }
     }
 }

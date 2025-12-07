@@ -1,12 +1,12 @@
-﻿using System;
+﻿namespace Home.Blog.Mvc.Controllers;
+
+using System;
 using System.Threading.Tasks;
 using Home.Blog.Mvc.Models;
 using Microsoft.AspNetCore.Mvc;
 using Piranha;
 using Piranha.AspNetCore.Services;
 using Piranha.Models;
-
-namespace Home.Blog.Mvc.Controllers;
 
 [ApiExplorerSettings(IgnoreApi = true)]
 public class CmsController : Controller
@@ -35,7 +35,7 @@ public class CmsController : Controller
     /// <param name="tag">The optional tag</param>
     /// <param name="draft">If a draft is requested</param>
     [Route("archive")]
-    public async Task<IActionResult> Archive(Guid id, int? year = null, int? month = null, int? page = null,
+    public async Task<IActionResult> ArchiveAsync(Guid id, int? year = null, int? month = null, int? page = null,
         Guid? category = null, Guid? tag = null, bool draft = false)
     {
         try
@@ -57,7 +57,7 @@ public class CmsController : Controller
     /// <param name="id">The unique page id</param>
     /// <param name="draft">If a draft is requested</param>
     [Route("page")]
-    public async Task<IActionResult> Page(Guid id, bool draft = false)
+    public async Task<IActionResult> PageAsync(Guid id, bool draft = false)
     {
         try
         {
@@ -77,7 +77,7 @@ public class CmsController : Controller
     /// <param name="id">The unique post id</param>
     /// <param name="draft">If a draft is requested</param>
     [Route("post")]
-    public async Task<IActionResult> Post(Guid id, bool draft = false)
+    public async Task<IActionResult> PostAsync(Guid id, bool draft = false)
     {
         try
         {
@@ -102,7 +102,7 @@ public class CmsController : Controller
     /// <param name="commentModel">The comment model</param>
     [HttpPost]
     [Route("post/comment")]
-    public async Task<IActionResult> SavePostComment(SaveCommentModel commentModel)
+    public async Task<IActionResult> SavePostCommentAsync(SaveCommentModel commentModel)
     {
         try
         {
@@ -111,8 +111,8 @@ public class CmsController : Controller
             // Create the comment
             var comment = new PostComment
             {
-                IpAddress = Request.HttpContext.Connection.RemoteIpAddress.ToString(),
-                UserAgent = Request.Headers.ContainsKey("User-Agent") ? Request.Headers["User-Agent"].ToString() : "",
+                IpAddress = Request?.HttpContext?.Connection?.RemoteIpAddress?.ToString(),
+                UserAgent = Request?.Headers?.ContainsKey("User-Agent") == true ? Request.Headers["User-Agent"].ToString() : "",
                 Author = commentModel.CommentAuthor,
                 Email = commentModel.CommentEmail,
                 Url = commentModel.CommentUrl,

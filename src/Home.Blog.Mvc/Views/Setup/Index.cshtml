@@ -6,55 +6,244 @@
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#3b82f6">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
     <!-- Setup CSS -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400&family=Raleway:wght@700&display=swap">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300,400">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Raleway:wght@700;800&display=swap">
 
     <style>
+        :root {
+            --primary: #3b82f6;
+            --primary-dark: #2563eb;
+            --primary-light: #60a5fa;
+            --primary-lighter: #bfdbfe;
+            --accent: #f97316;
+            --accent-dark: #ea580c;
+            --dark: #0f172a;
+            --dark-soft: #334155;
+            --light: #f8fafc;
+            --gray: #64748b;
+            --gray-light: #e2e8f0;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
         body {
-            background: #f4f4f4;
-            font-family: Lato,sans-serif;
+            background: linear-gradient(135deg, var(--light) 0%, var(--gray-light) 100%);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            -webkit-font-smoothing: antialiased;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Decorative background elements */
+        body::before {
+            content: '';
+            position: fixed;
+            top: -20%;
+            right: -10%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.12) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            bottom: -20%;
+            left: -10%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(249, 115, 22, 0.08) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
         }
 
         h2 {
-            font-family: Raleway,sans-serif;
-            margin: 2rem 0;
+            font-family: 'Raleway', sans-serif;
+            font-weight: 800;
+            color: var(--dark);
+            margin: 1.5rem 0 1rem;
+            letter-spacing: -0.03em;
+            font-size: 2rem;
         }
 
         code {
-            font-size: 82.5%;
-            margin: 0 .25rem;
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            font-size: 0.85em;
+            margin: 0 0.2rem;
+            padding: 0.25rem 0.6rem;
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--primary-dark);
+            border-radius: 0.5rem;
         }
 
         a {
-            color: #06a3d8;
+            color: var(--primary);
+            text-decoration: none;
+            transition: color 0.25s ease;
         }
         a:hover {
-            color: #0693c8;
+            color: var(--primary-dark);
+        }
+
+        p {
+            color: var(--gray);
+            line-height: 1.75;
+            margin-bottom: 1rem;
+        }
+
+        .lead {
+            font-size: 1.1rem;
+            color: var(--dark-soft);
+            font-weight: 400;
+        }
+
+        strong {
+            color: var(--dark-soft);
+            font-weight: 600;
         }
 
         img {
-            width: 25%;
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+        }
+
+        .logo-wrapper {
+            width: 90px;
+            height: 90px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            border-radius: 1.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 0.5rem;
+            box-shadow: 0 15px 40px rgba(59, 130, 246, 0.3);
+            position: relative;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .logo-wrapper::before {
+            content: '';
+            position: absolute;
+            inset: -3px;
+            background: linear-gradient(135deg, var(--primary-light), var(--accent));
+            border-radius: 1.35rem;
+            z-index: -1;
+            opacity: 0.4;
+            filter: blur(8px);
+        }
+
+        .logo-wrapper img {
+            filter: brightness(0) invert(1);
         }
 
         .card {
             border: 0 none;
-            margin-top: 5rem;
-            box-shadow: 0 .5rem 1rem rgba(0,0,0,.05);
+            border-radius: 1.75rem;
+            box-shadow: 0 25px 60px rgba(15, 23, 42, 0.1);
+            animation: fadeInUp 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+        }
+
+        .btn {
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            padding: 0.9rem 1.75rem;
+            border-radius: 9999px;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.1em;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .btn:hover::before {
+            left: 100%;
         }
 
         .btn-primary {
-            background-color: #06a3d8;
-            border-color: #06a3d8;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: #fff;
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.25);
         }
         .btn-primary:hover {
-            background-color: #0693c8;
-            border-color: #0693c8;
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(59, 130, 246, 0.35);
+        }
+        .btn-primary:active {
+            transform: translateY(-1px);
+        }
+
+        .btn-accent {
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
+            color: #fff;
+            box-shadow: 0 8px 25px rgba(249, 115, 22, 0.25);
+        }
+        .btn-accent:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(249, 115, 22, 0.35);
+        }
+
+        @@keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @@keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-8px);
+            }
         }
     </style>
 
@@ -63,12 +252,12 @@
 <body>
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-lg-7 col-sm-12 text-center">
-                <div class="card p-md-5">
+            <div class="col-lg-5 col-md-7 col-sm-11 text-center">
+                <div class="card p-4 p-md-5">
                     <div class="card-body">
-                        <p>
-                            <img src="https://piranhacms.org/assets/twitter-shield.png">
-                        </p>
+                        <div class="logo-wrapper">
+                            <img src="https://piranhacms.org/assets/twitter-shield.png" alt="Piranha CMS">
+                        </div>
                         <h2>Welcome to Piranha CMS</h2>
                         <p class="lead">
                             Thanks for using Piranha CMS and choosing to start your project
@@ -84,10 +273,10 @@
                             done with the setup you can delete the <code>SetupController</code>
                             and the <code>~/seed</code> directory from your project.
                         </p>
-                        <p class="mt-5">
-                            <a href="@Url.Action("Seed")" class="btn btn-primary btn-sm">Seed some data</a>
-                            <a href="~/manager/login" class="btn btn-primary btn-sm">Take me to the manager</a>
-                        </p>
+                        <div class="d-flex flex-wrap justify-content-center gap-3 mt-4">
+                            <a href="@Url.Action("Seed")" class="btn btn-primary">Seed some data</a>
+                            <a href="~/manager/login" class="btn btn-accent">Open Manager</a>
+                        </div>
                     </div>
                 </div>
             </div>
