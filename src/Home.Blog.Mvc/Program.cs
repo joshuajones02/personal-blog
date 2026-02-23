@@ -27,7 +27,7 @@ builder.AddPiranha(options =>
      * this adds a slight overhead it should not be
      * enabled in production.
      */
-    options.AddRazorRuntimeCompilation = env == "local";
+    options.AddRazorRuntimeCompilation = env == "local" || System.Diagnostics.Debugger.IsAttached;
     options.UseCms();
     options.UseManager();
 

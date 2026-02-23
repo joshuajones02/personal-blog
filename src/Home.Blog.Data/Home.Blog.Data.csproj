@@ -1,0 +1,8 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<ItemGroup>
+		<PackageReference Include="Minio" Version="7.0.0" />
+		<PackageReference Include="Piranha" Version="12.0.0" />
+	</ItemGroup>
+	
+</Project>

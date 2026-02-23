@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<!-- ## 'tests' level Directory.Build.props file ## -->
+<Project>
+  <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))" />
+  
+  <PropertyGroup>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+  </PropertyGroup>
+  
+</Project>

@@ -1,9 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
-    <Nullable>enable</Nullable>
-    <ImplicitUsings>disable</ImplicitUsings>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerfileContext>..\..</DockerfileContext>
     <Dockerfile>..\..\Dockerfile</Dockerfile>
@@ -25,8 +22,6 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.6" />
-    <PackageReference Include="Minio" Version="7.0.0" />
-    <PackageReference Include="Piranha" Version="12.0.0" />
     <PackageReference Include="Piranha.AspNetCore" Version="12.0.0" />
     <PackageReference Include="Piranha.AspNetCore.Identity.SQLServer" Version="12.0.0" />
     <PackageReference Include="Piranha.AttributeBuilder" Version="12.0.0" />
@@ -38,7 +33,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Home.Blog.Common\Home.Blog.Common.csproj" />
+    <ProjectReference Include="..\Home.Blog.Core\Home.Blog.Core.csproj" />
   </ItemGroup>
 
 </Project>

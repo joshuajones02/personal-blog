@@ -17,6 +17,7 @@ public class MinioStorageSession : IStorageSession
     private readonly IMinioClient _client;
     private readonly MinioStorageNaming _naming;
     private readonly string _bucketName;
+    private bool _disposed;
 
     /// <summary>
     /// Creates a new MinIO storage session.
@@ -42,7 +43,7 @@ public class MinioStorageSession : IStorageSession
     /// <param name="contentType">The content type</param>
     /// <param name="bytes">The binary data</param>
     /// <returns>The public URL</returns>
-    public async Task<string> PutAsync(Piranha.Models.Media media, string filename, string contentType, byte[] bytes)
+    public async Task<string> PutAsync(Media media, string filename, string contentType, byte[] bytes)
     {
         try
         {
@@ -77,7 +78,7 @@ public class MinioStorageSession : IStorageSession
     /// <param name="filename">The file name</param>
     /// <param name="stream">The output stream</param>
     /// <returns>True if the content was found</returns>
-    public async Task<bool> GetAsync(Piranha.Models.Media media, string filename, Stream stream)
+    public async Task<bool> GetAsync(Media media, string filename, Stream stream)
     {
         var objectName = GetResourceName(media, filename);
 
@@ -110,7 +111,7 @@ public class MinioStorageSession : IStorageSession
     /// </summary>
     /// <param name="media">The media file</param>
     /// <param name="filename">The file name</param>
-    public async Task<bool> DeleteAsync(Piranha.Models.Media media, string filename)
+    public async Task<bool> DeleteAsync(Media media, string filename)
     {
         var objectName = GetResourceName(media, filename);
 
@@ -190,7 +191,7 @@ public class MinioStorageSession : IStorageSession
     /// <param name="media">The media object</param>
     /// <param name="filename">The file name</param>
     /// <returns>The resource name</returns>
-    private string GetResourceName(Piranha.Models.Media media, string filename) =>
+    private string GetResourceName(Media media, string filename) =>
         _naming == MinioStorageNaming.UniqueFileNames
             ? $"{media.Id}-{filename}"
             : $"{media.Id}/{filename}";

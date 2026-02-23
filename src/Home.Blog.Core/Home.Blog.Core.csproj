@@ -1,0 +1,8 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\Home.Blog.Common\Home.Blog.Common.csproj" />
+    <ProjectReference Include="..\Home.Blog.Data\Home.Blog.Data.csproj" />
+  </ItemGroup>
+
+</Project>

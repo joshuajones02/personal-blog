@@ -1,16 +1,18 @@
 .navbar.fixed-top {
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
     border: none;
-    font-family: 'Source Sans 3', sans-serif;
-    box-shadow: none;
+    border-bottom: 1px solid rgba($mist, 0.5);
+    font-family: 'Inter', sans-serif;
     padding: 1rem 0;
-    transition: all 0.4s ease;
+    transition: all 0.4s $ease-out;
 
     &.scrolled {
-        padding: 0.75rem 0;
+        padding: 0.625rem 0;
+        background: rgba(255, 255, 255, 0.95);
         box-shadow: $shadow-md;
+        border-bottom-color: transparent;
     }
 
     .container {
@@ -19,55 +21,37 @@
     }
 
     .navbar-brand {
-        transition: all 0.3s ease;
-        
+        transition: opacity 0.2s ease;
+
         &:hover {
-            opacity: 0.8;
+            opacity: 0.7;
         }
     }
 
     .navbar-nav {
-        font-size: 0.9rem;
-        font-weight: 600;
-        gap: 0.5rem;
+        font-size: 0.875rem;
+        font-weight: 500;
+        gap: 0.25rem;
 
         .nav-item {
             .nav-link {
-                color: $dark-soft;
-                padding: 0.5rem 1rem;
-                border-radius: $radius-md;
-                transition: all 0.3s ease;
+                color: $graphite;
+                padding: 0.5rem 0.875rem;
+                border-radius: $radius-full;
+                transition: all 0.25s ease;
                 position: relative;
 
-                &::after {
-                    content: '';
-                    position: absolute;
-                    bottom: 0;
-                    left: 50%;
-                    transform: translateX(-50%);
-                    width: 0;
-                    height: 2px;
-                    background: $gradient-sunset;
-                    transition: width 0.3s ease;
-                    border-radius: $radius-full;
-                }
-
                 &:hover {
-                    color: $teal;
-
-                    &::after {
-                        width: calc(100% - 2rem);
-                    }
+                    color: $indigo;
+                    background: $indigo-subtle;
                 }
             }
 
             &.active {
                 .nav-link {
-                    color: $teal;
-
-                    &::after {
-                        width: calc(100% - 2rem);
-                    }
+                    color: $indigo;
+                    background: $indigo-subtle;
+                    font-weight: 600;
                 }
             }
         }
@@ -75,55 +59,25 @@
 
     .navbar-toggler {
         padding: 0.5rem 0.75rem;
-        border: 2px solid $gray-light;
-        border-radius: $radius-md;
-        transition: all 0.3s ease;
+        border: 1px solid $mist;
+        border-radius: $radius-lg;
+        transition: all 0.25s ease;
         background: #fff;
 
         &:hover {
-            border-color: $teal;
-            background: rgba($teal, 0.05);
+            border-color: $indigo;
+            background: $indigo-subtle;
         }
 
         &:focus {
-            box-shadow: 0 0 0 3px rgba($teal, 0.15);
-            border-color: $teal;
+            box-shadow: 0 0 0 3px rgba($indigo, 0.12);
+            border-color: $indigo;
             outline: none;
         }
 
         .navbar-toggler-icon {
             width: 1.25em;
             height: 1.25em;
-        }
-    }
-}
-
-// Medium devices (tablets, 768px and up)
-@media (max-width: 991px) {
-    .navbar.fixed-top {
-        padding: 0.75rem 0;
-        
-        .container {
-            max-width: 100%;
-            flex-wrap: wrap;
-        }
-        
-        .navbar-nav {
-            width: 100%;
-            margin-top: 1.25rem;
-            padding: 1rem 0;
-            border-top: 1px solid $gray-light;
-            flex-direction: column;
-            gap: 0;
-
-            .nav-item .nav-link {
-                padding: 0.875rem 0;
-                border-radius: 0;
-                
-                &::after {
-                    display: none;
-                }
-            }
         }
     }
 }

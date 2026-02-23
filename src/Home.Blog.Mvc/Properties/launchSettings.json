@@ -2,27 +2,27 @@
   "profiles": {
     "Local WSL2": {
       "commandName": "WSL2",
-      "launchUrl": "https://localhost:64022",
+      "launchUrl": "https://localhost:5100",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "local"
       },
-      "applicationUrl": "https://localhost:64022;http://localhost:64023"
+      "applicationUrl": "https://localhost:5100;http://localhost:5101"
     },
     "Local Kestrel": {
       "commandName": "Project",
-      "launchUrl": "https://localhost:64022",
+      "launchUrl": "https://localhost:5100",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "local"
       },
-      "applicationUrl": "https://localhost:64022;http://localhost:64023"
+      "applicationUrl": "https://localhost:5100;http://localhost:5101"
     },
     "LAN Kestrel": {
       "commandName": "Project",
-      "launchUrl": "https://localhost:64022",
+      "launchUrl": "https://localhost:5100",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "lan"
       },
-      "applicationUrl": "https://localhost:64022;http://localhost:64023"
+      "applicationUrl": "https://localhost:5100;http://localhost:5101"
     },
     "Internal Kestrel": {
       "commandName": "Project",
@@ -30,7 +30,7 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "internal"
       },
-      "applicationUrl": "https://localhost:64022;http://localhost:64023"
+      "applicationUrl": "https://localhost:5100;http://localhost:5101"
     },
     "Azure Kestrel": {
       "commandName": "Project",
@@ -38,7 +38,7 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "azure"
       },
-      "applicationUrl": "https://localhost:64022;http://localhost:64023"
+      "applicationUrl": "https://localhost:5100;http://localhost:5101"
     },
     "Docker": {
       "commandName": "Docker",

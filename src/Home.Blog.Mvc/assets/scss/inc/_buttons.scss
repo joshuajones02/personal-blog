@@ -1,11 +1,11 @@
 .btn {
-    font-family: 'Source Sans 3', sans-serif;
+    font-family: 'Inter', sans-serif;
     font-weight: 600;
-    padding: 0.875rem 2rem;
-    border-radius: $radius-md;
-    font-size: 0.9rem;
-    letter-spacing: 0.02em;
-    transition: all 0.3s ease;
+    padding: 0.75rem 1.75rem;
+    border-radius: $radius-full;
+    font-size: 0.875rem;
+    letter-spacing: 0.01em;
+    transition: all 0.25s $ease-out;
     border: none;
     position: relative;
     cursor: pointer;
@@ -15,29 +15,28 @@
     gap: 0.5rem;
 
     &.btn-primary {
-        background: $teal;
+        background: $gradient-primary;
         color: #fff;
         box-shadow: $shadow-sm;
 
         &:hover {
-            background: $teal-dark;
             transform: translateY(-2px);
             box-shadow: $shadow-primary;
         }
 
         &:active {
             transform: translateY(0);
-            box-shadow: $shadow-sm;
+            box-shadow: $shadow-xs;
         }
 
         &:focus {
             outline: none;
-            box-shadow: 0 0 0 3px rgba($teal, 0.3), $shadow-sm;
+            box-shadow: 0 0 0 3px rgba($indigo, 0.25), $shadow-sm;
         }
     }
 
     &.btn-accent {
-        background: $gradient-sunset;
+        background: $gradient-accent;
         color: #fff;
         box-shadow: $shadow-sm;
 
@@ -48,89 +47,73 @@
     }
 
     &.btn-outline-primary {
-        border: 2px solid $teal;
-        color: $teal;
+        border: 2px solid $indigo;
+        color: $indigo;
         background: transparent;
-        box-shadow: none;
 
         &:hover {
-            background: $teal;
+            background: $indigo;
             color: #fff;
             transform: translateY(-2px);
             box-shadow: $shadow-primary;
         }
 
         &:focus {
-            box-shadow: 0 0 0 3px rgba($teal, 0.2);
+            box-shadow: 0 0 0 3px rgba($indigo, 0.15);
         }
     }
 
     &.btn-outline-light {
-        border: 2px solid rgba(255, 255, 255, 0.6);
+        border: 2px solid rgba(255, 255, 255, 0.5);
         color: #fff;
         background: transparent;
 
         &:hover {
             background: #fff;
-            color: $teal;
+            color: $indigo;
             border-color: #fff;
         }
     }
 
     &.btn-ghost {
-        background: rgba($teal, 0.1);
-        color: $teal;
+        background: $indigo-subtle;
+        color: $indigo;
         box-shadow: none;
 
         &:hover {
-            background: rgba($teal, 0.2);
-            transform: translateY(-2px);
-        }
-    }
-
-    &.btn-warm {
-        background: $cream;
-        color: $dark;
-        box-shadow: $shadow-sm;
-
-        &:hover {
-            background: $sand;
-            transform: translateY(-2px);
-            box-shadow: $shadow-warm;
+            background: $indigo-lighter;
+            transform: translateY(-1px);
         }
     }
 
     &.btn-sm {
-        padding: 0.6rem 1.25rem;
-        font-size: 0.85rem;
+        padding: 0.5rem 1.25rem;
+        font-size: 0.8125rem;
     }
 
     &.btn-lg {
         padding: 1rem 2.5rem;
-        font-size: 1rem;
+        font-size: 0.9375rem;
     }
 
-    // Icon inside button
     svg, i {
-        width: 1.125rem;
-        height: 1.125rem;
+        width: 1rem;
+        height: 1rem;
     }
 
-    // Button group spacing
     + .btn {
         margin-left: 0.75rem;
     }
 }
 
-// Link style button
 .btn-link {
-    color: $teal;
+    color: $indigo;
     padding: 0;
     background: none;
     border: none;
     font-weight: 600;
     position: relative;
-    
+
     &::after {
         content: '';
         position: absolute;
@@ -138,14 +121,14 @@
         left: 0;
         width: 100%;
         height: 2px;
-        background: $teal;
+        background: $gradient-primary;
         transform: scaleX(0);
         transform-origin: right;
-        transition: transform 0.3s ease;
+        transition: transform 0.3s $ease-out;
     }
 
     &:hover {
-        color: $teal-dark;
+        color: $indigo-dark;
 
         &::after {
             transform: scaleX(1);
@@ -154,25 +137,25 @@
     }
 }
 
-// Read more arrow link
 .read-more {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    color: $teal;
+    color: $indigo;
     font-weight: 600;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
+    letter-spacing: 0.01em;
 
     &::after {
         content: '\2192';
-        transition: transform 0.3s ease;
+        transition: transform 0.3s $ease-out;
     }
 
     &:hover {
-        color: $teal-dark;
+        color: $indigo-dark;
 
         &::after {
-            transform: translateX(4px);
+            transform: translateX(5px);
         }
     }
 }
