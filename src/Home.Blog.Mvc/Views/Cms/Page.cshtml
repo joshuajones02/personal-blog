@@ -1,6 +1,6 @@
 @model StandardPage
 @{
-    ViewData["Title"] = !string.IsNullOrEmpty(Model.MetaTitle) ? Model.MetaTitle : Model.Title;
+    ViewData["Title"] = !string.IsNullOrEmpty(Model?.MetaTitle) ? Model.MetaTitle : Model?.Title ?? string.Empty;
     var hasImage = Model.PrimaryImage.HasValue;
 }
 @section head {

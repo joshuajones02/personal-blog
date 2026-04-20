@@ -1,0 +1,91 @@
+@model WeddingPage
+@{
+    ViewData["Title"] = !string.IsNullOrEmpty(Model.MetaTitle) ? Model.MetaTitle : Model.Title;
+    var hasImage = Model.PrimaryImage.HasValue;
+    var details = Model.WeddingDetails;
+    var hasDate = details?.Date?.Value != null;
+    var hasVenue = !string.IsNullOrWhiteSpace(details?.VenueName?.Value);
+    var hasAddress = !string.IsNullOrWhiteSpace(details?.VenueAddress?.Value);
+    var hasCoupleMessage = !string.IsNullOrWhiteSpace(details?.CoupleMessage?.Value);
+}
+@section head {
+    @WebApp.MetaTags(Model)
+}
+
+<header @(hasImage ? "class=has-image" : "") @(hasImage ? $"style=background-image:url({ @Url.Content(WebApp.Media.ResizeImage(Model.PrimaryImage, 1920, 700)) })" : "")>
+    <div class="dimmer"></div>
+    <div class="container text-center">
+        <h1>@Model.Title</h1>
+        @if (!string.IsNullOrWhiteSpace(Model.Excerpt))
+        {
+            <div class="row justify-content-center">
+                <div class="col-lg-8 lead">
+                    @Html.Raw(Model.Excerpt)
+                </div>
+            </div>
+        }
+    </div>
+</header>
+
+<main class="wedding-page">
+    @if (hasDate || hasVenue || hasAddress)
+    {
+        <section class="wedding-details">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-8 text-center">
+                        <h2 class="wedding-section-title">Wedding Details</h2>
+
+                        <div class="wedding-info-cards">
+                            @if (hasDate)
+                            {
+                                <div class="wedding-info-card">
+                                    <div class="wedding-info-icon">&#128197;</div>
+                                    <h3>When</h3>
+                                    <p>@details.Date.Value.Value.ToString("MMMM d, yyyy")</p>
+                                </div>
+                            }
+                            @if (hasVenue)
+                            {
+                                <div class="wedding-info-card">
+                                    <div class="wedding-info-icon">&#127960;</div>
+                                    <h3>Where</h3>
+                                    <p>@details.VenueName.Value</p>
+                                    @if (hasAddress)
+                                    {
+                                        <p class="wedding-address">@details.VenueAddress.Value</p>
+                                    }
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    }
+
+    @if (hasCoupleMessage)
+    {
+        <section class="wedding-message">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-8 text-center">
+                        <h2 class="wedding-section-title">A Note From Us</h2>
+                        <div class="wedding-couple-message">
+                            @Html.Raw(details.CoupleMessage.Value)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    }
+
+    @foreach (var block in Model.Blocks)
+    {
+        <div class="block @block.CssName()">
+            <div class="container">
+                @Html.DisplayFor(m => block, block.GetType().Name)
+            </div>
+        </div>
+    }
+</main>

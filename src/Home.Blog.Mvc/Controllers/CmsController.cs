@@ -72,6 +72,26 @@ public class CmsController : Controller
     }
 
     /// <summary>
+    /// Gets the wedding page with the given id.
+    /// </summary>
+    /// <param name="id">The unique page id</param>
+    /// <param name="draft">If a draft is requested</param>
+    [Route("weddingpage")]
+    public async Task<IActionResult> WeddingPageAsync(Guid id, bool draft = false)
+    {
+        try
+        {
+            var model = await _loader.GetPageAsync<WeddingPage>(id, HttpContext.User, draft);
+
+            return View(model);
+        }
+        catch (UnauthorizedAccessException)
+        {
+            return Unauthorized();
+        }
+    }
+
+    /// <summary>
     /// Gets the post with the given id.
     /// </summary>
     /// <param name="id">The unique post id</param>
