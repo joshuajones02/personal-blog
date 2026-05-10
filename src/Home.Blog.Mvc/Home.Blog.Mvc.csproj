@@ -32,6 +32,43 @@
     <PackageReference Include="Piranha.Manager.TinyMCE" Version="12.0.0" />
   </ItemGroup>
 
+  <!--
+    Transitive vulnerability mitigations.
+    Piranha 12.0.0 is the latest version available; the security advisories
+    flagged by 'dotnet list package vulnerable' originate from its
+    transitive dependencies. We pin patched versions here so NuGet picks them
+    over the Piranha-shipped versions, while staying within major lines
+    that Piranha 12.x is binary-compatible with.
+
+    Reviewed against:
+      GHSA-m5vv-6r4h-3vj9 / GHSA-wvxc-855f-jvrv / GHSA-5mfx-4wcx-rv27 (Azure.Identity)
+      GHSA-98g6-xh36-x2p7 (Microsoft.Data.SqlClient)
+      GHSA-qj66-m88j-hmgj (Microsoft.Extensions.Caching.Memory)
+      GHSA-59j7-ghrg-fj52 (Microsoft.IdentityModel / System.IdentityModel.Tokens.Jwt)
+      GHSA-rxmq-m78w-7wmc (SixLabors.ImageSharp)
+      GHSA-447r-wph3-92pm (System.Formats.Asn1)
+      GHSA-hh2w-p6rv-4g7w / GHSA-8g4q-xg66-9fp4 (System.Text.Json)
+
+    AutoMapper 12.0.1 (GHSA-rvv3-g6hj-g44x) is intentionally NOT pinned.
+    Piranha 12.0.0 was compiled against AutoMapper 12.x and uses the
+    MapperConfiguration(Action<IMapperConfigurationExpression>) constructor
+    which was removed in AutoMapper 14+. Pinning to 15.1.1+ / 16.1.1+
+    breaks Piranha's static initializer at startup with MissingMethodException.
+    The advisory is a stack-overflow DoS that requires submitting an object
+    graph nested 25,000+ levels deep through a mapped endpoint; not
+    exploitable here, since Piranha only maps internal entity DTOs it controls.
+  -->
+  <ItemGroup>
+    <PackageReference Include="Azure.Identity" Version="1.13.2" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="5.2.3" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="8.0.1" />
+    <PackageReference Include="Microsoft.IdentityModel.JsonWebTokens" Version="8.14.0" />
+    <PackageReference Include="SixLabors.ImageSharp" Version="2.1.13" />
+    <PackageReference Include="System.Formats.Asn1" Version="8.0.2" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.14.0" />
+    <PackageReference Include="System.Text.Json" Version="8.0.6" />
+  </ItemGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\Home.Blog.Core\Home.Blog.Core.csproj" />
   </ItemGroup>

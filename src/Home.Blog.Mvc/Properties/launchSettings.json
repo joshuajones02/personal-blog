@@ -18,7 +18,7 @@
     },
     "LAN Kestrel": {
       "commandName": "Project",
-      "launchUrl": "https://localhost:5100",
+      "launchUrl": "https://localhost:5100",  
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "lan"
       },

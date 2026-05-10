@@ -1,172 +1,124 @@
-header {
-    background-position: 50% 50%;
-    background-size: cover;
-    position: relative;
-    background-color: $cloud;
-    overflow: hidden;
-    margin-top: 76px;
+// ─────────────────────────────────────────────────────────────────
+//  Page hero / masthead
+// ─────────────────────────────────────────────────────────────────
 
-    .container {
-        padding-top: 5rem;
-        padding-bottom: 5rem;
+.hero {
+    position: relative;
+    background: var(--paper-deep);
+    color: var(--ink);
+    padding-top: calc(var(--nav-height) + var(--space-16));
+    padding-bottom: var(--space-16);
+    overflow: hidden;
+
+    .hero__inner {
         position: relative;
         z-index: 2;
+        text-align: center;
     }
 
-    h1 {
-        margin-bottom: 1.25rem;
-        animation: fadeInUp 0.7s $ease-out;
-        color: $ink;
+    .hero__eyebrow {
+        margin-bottom: var(--space-5);
     }
 
-    .lead {
-        max-width: 680px;
-        margin: 0 auto 1.5rem;
-        animation: fadeInUp 0.7s $ease-out 0.1s both;
+    .hero__title {
+        font-size: var(--text-6xl);
+        margin: 0 0 var(--space-5);
+        max-width: 22ch;
+        margin-inline: auto;
+        font-variation-settings: "opsz" 144;
+        font-weight: 500;
     }
 
-    .post-meta {
-        animation: fadeInUp 0.7s $ease-out 0.15s both;
+    .hero__lead {
+        max-width: 60ch;
+        margin: var(--space-5) auto 0;
     }
 
-    .subheading {
-        animation: fadeInUp 0.7s $ease-out 0.05s both;
+    .hero__meta {
+        margin-top: var(--space-6);
     }
 
-    &.has-image {
-        color: #fff;
-        min-height: 75vh;
+    .hero__tags {
+        margin-top: var(--space-6);
         display: flex;
-        align-items: flex-end;
-        margin-top: 0;
-        padding-top: 76px;
-
-        h1 {
-            color: #fff;
-            text-shadow: 0 2px 30px rgba(0, 0, 0, 0.25);
-        }
-
-        .lead, p {
-            color: rgba(255, 255, 255, 0.9);
-        }
-
-        a {
-            color: #fff;
-            text-decoration: underline;
-            text-decoration-color: rgba(255, 255, 255, 0.4);
-            text-underline-offset: 4px;
-
-            &:hover {
-                text-decoration-color: #fff;
-            }
-        }
-
-        .dimmer {
-            background: $gradient-hero;
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
-        }
-
-        .container {
-            padding-top: 8rem;
-            padding-bottom: 5rem;
-        }
-
-        .subheading {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(8px);
-            color: #fff;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-
-            &:hover {
-                background: #fff;
-                color: $indigo;
-                border-color: #fff;
-            }
-        }
-
-        .post-meta {
-            color: rgba(255, 255, 255, 0.8);
-
-            span a {
-                background: rgba(255, 255, 255, 0.15);
-                backdrop-filter: blur(8px);
-                color: #fff;
-                border: 1px solid rgba(255, 255, 255, 0.2);
-
-                &:hover {
-                    background: #fff;
-                    color: $indigo;
-                    border-color: #fff;
-                }
-            }
-
-            span:not(:last-child)::after {
-                color: rgba(255, 255, 255, 0.4);
-            }
-        }
-
-        .tag {
-            background: rgba(255, 255, 255, 0.12);
-            color: #fff;
-            border-color: rgba(255, 255, 255, 0.2);
-
-            &:hover {
-                background: #fff;
-                color: $indigo;
-                border-color: #fff;
-            }
-        }
+        flex-wrap: wrap;
+        gap: var(--space-2);
+        justify-content: center;
     }
 }
 
-// Header without image — soft background with decorative orbs
-header:not(.has-image) {
-    background: $cloud;
-    border-bottom: 1px solid $mist;
+// ── Hero with image (cinematic full-bleed) ───────────────────────
 
-    &::before {
-        content: '';
+.hero--image {
+    color: #fff;
+    background-color: var(--ink);
+    background-position: 50% 50%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    min-height: clamp(480px, 70vh, 720px);
+    display: flex;
+    align-items: flex-end;
+    padding-top: calc(var(--nav-height) + var(--space-12));
+    padding-bottom: var(--space-16);
+
+    .hero__title { color: #fff; }
+
+    .hero__lead {
+        color: rgba(255, 255, 255, 0.92);
+    }
+
+    .hero__overlay {
         position: absolute;
-        top: -50%;
-        right: -10%;
-        width: 600px;
-        height: 600px;
-        background: radial-gradient(circle, rgba($indigo, 0.06) 0%, transparent 70%);
-        border-radius: 50%;
+        inset: 0;
+        z-index: 1;
+        background:
+            linear-gradient(180deg,
+                rgba(11, 11, 12, 0.35) 0%,
+                rgba(11, 11, 12, 0.15) 35%,
+                rgba(11, 11, 12, 0.55) 75%,
+                rgba(11, 11, 12, 0.82) 100%);
         pointer-events: none;
     }
 
-    &::after {
-        content: '';
-        position: absolute;
-        bottom: -30%;
-        left: -5%;
-        width: 400px;
-        height: 400px;
-        background: radial-gradient(circle, rgba($orange, 0.04) 0%, transparent 70%);
-        border-radius: 50%;
-        pointer-events: none;
+    .hero__eyebrow {
+        color: var(--accent-tint);
+    }
+
+    .post-meta__item {
+        color: rgba(255, 255, 255, 0.85);
+    }
+
+    .post-meta__link,
+    .tag-chip {
+        background: rgba(255, 255, 255, 0.12);
+        color: #fff;
+        border-color: rgba(255, 255, 255, 0.25);
+        backdrop-filter: blur(6px);
+        -webkit-backdrop-filter: blur(6px);
+
+        &:hover {
+            background: #fff;
+            color: var(--ink);
+            border-color: #fff;
+        }
     }
 }
 
-// Animations
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
+// ── Hero left-aligned (post articles) ────────────────────────────
 
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+.hero--article {
+    text-align: left;
+
+    .hero__inner { text-align: left; }
+    .hero__title { margin-inline: 0; max-width: 24ch; }
+    .hero__lead  { margin-inline: 0; }
+    .hero__tags  { justify-content: flex-start; }
+
+    @media (max-width: 640px) {
+        text-align: center;
+        .hero__inner { text-align: center; }
+        .hero__title { margin-inline: auto; }
+        .hero__lead  { margin-inline: auto; }
+        .hero__tags  { justify-content: center; }
+    }
 }

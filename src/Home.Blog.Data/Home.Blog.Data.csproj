@@ -4,5 +4,13 @@
 		<PackageReference Include="Minio" Version="7.0.0" />
 		<PackageReference Include="Piranha" Version="12.0.0" />
 	</ItemGroup>
-	
+
+	<!--
+	  Transitive vulnerability mitigation: pin System.Text.Json to a patched
+	  8.0.x version. See Home.Blog.Mvc.csproj for the full mitigation set.
+	-->
+	<ItemGroup>
+		<PackageReference Include="System.Text.Json" Version="8.0.6" />
+	</ItemGroup>
+
 </Project>

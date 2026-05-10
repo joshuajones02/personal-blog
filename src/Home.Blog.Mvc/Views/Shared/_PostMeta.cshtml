@@ -1,0 +1,39 @@
+@*
+    Renders post meta-data: category, published date, comment count.
+    Model:
+        new PostMetaModel {
+            CategoryTitle, CategoryUrl,
+            PublishedDate (DateTime?),
+            CommentCount, CommentsAnchorUrl, ShowCategory
+        }
+*@
+@model Home.Blog.Mvc.Models.PostMetaModel
+@{
+    if (Model == null) { return; }
+}
+<ul class="post-meta">
+    @if (Model.ShowCategory && !string.IsNullOrEmpty(Model.CategoryTitle))
+    {
+        <li class="post-meta__item">
+            <a class="post-meta__link" href="@Model.CategoryUrl">@Model.CategoryTitle</a>
+        </li>
+    }
+
+    @if (Model.PublishedDate.HasValue)
+    {
+        <li class="post-meta__item">
+            <time datetime="@Model.PublishedDate.Value.ToString("yyyy-MM-dd")">
+                @Model.PublishedDate.Value.ToString("MMMM d, yyyy")
+            </time>
+        </li>
+    }
+
+    @if (Model.CommentCount > 0 && !string.IsNullOrEmpty(Model.CommentsAnchorUrl))
+    {
+        <li class="post-meta__item">
+            <a href="@Model.CommentsAnchorUrl">
+                @Model.CommentCount @(Model.CommentCount == 1 ? "comment" : "comments")
+            </a>
+        </li>
+    }
+</ul>

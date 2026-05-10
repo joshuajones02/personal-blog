@@ -1,33 +1,62 @@
 @model Piranha.Extend.Blocks.ImageGalleryBlock
 @using Piranha.Extend.Blocks
 @{
-    var unique = "gallery-" + Guid.NewGuid().ToString();
+    var unique = "gallery-" + Guid.NewGuid().ToString("N");
     var images = Model.Items
-        .Where(i => i.GetType() == typeof(ImageBlock) && ((ImageBlock)i).Body.HasValue)
+        .OfType<ImageBlock>()
+        .Where(i => i.Body.HasValue)
         .ToList();
 }
 
-<div id="@unique" class="carousel slide gallery-block" data-bs-ride="carousel">
-    <div class="carousel-indicators">
-        @for (var n = 0; n < images.Count; n++)
+@if (images.Count > 0)
+{
+    <div id="@unique" class="gallery" data-gallery aria-roledescription="carousel" aria-label="Image gallery">
+        <div class="gallery__viewport">
+            @for (var n = 0; n < images.Count; n++)
+            {
+                var img = images[n];
+                var alt = img.Body.Media?.AltText ?? "";
+                <div class="gallery__slide"
+                     data-active="@(n == 0 ? "true" : "false")"
+                     role="group"
+                     aria-roledescription="slide"
+                     aria-label="Slide @(n + 1) of @images.Count"
+                     @(n != 0 ? "aria-hidden=true" : "")>
+                    <img src="@Url.Content(WebApp.Media.ResizeImage(img.Body.Media, 1280, 720))"
+                         alt="@alt"
+                         loading="@(n == 0 ? "eager" : "lazy")"
+                         decoding="async">
+                </div>
+            }
+        </div>
+
+        @if (images.Count > 1)
         {
-            <button type="button" data-bs-target="#@unique" data-bs-slide-to="@n" class="@(n == 0 ? "active" : "")" aria-current="@(n == 0 ? "true" : "false")" aria-label="Slide @(n + 1)"></button>
-        }
-    </div>
-    <div class="carousel-inner">
-        @foreach (var item in images)
-        {
-            <div class="carousel-item @(item == images.First() ? "active" : "")">
-                <img src="@Url.Content(WebApp.Media.ResizeImage(((ImageBlock)item).Body.Media, 1100, 500))" class="d-block w-100" alt="">
+            <div class="gallery__controls" aria-hidden="false">
+                <button type="button" class="gallery__btn" data-gallery-prev aria-label="Previous slide">
+                    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"
+                         stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M10 12 6 8l4-4" />
+                    </svg>
+                </button>
+                <button type="button" class="gallery__btn" data-gallery-next aria-label="Next slide">
+                    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"
+                         stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="m6 4 4 4-4 4" />
+                    </svg>
+                </button>
+            </div>
+
+            <div class="gallery__indicators" role="tablist" aria-label="Select slide">
+                @for (var n = 0; n < images.Count; n++)
+                {
+                    <button type="button"
+                            data-gallery-goto="@n"
+                            role="tab"
+                            aria-label="Go to slide @(n + 1)"
+                            aria-current="@(n == 0 ? "true" : "false")"></button>
+                }
             </div>
         }
     </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#@unique" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#@unique" data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span>
-    </button>
-</div>
+}

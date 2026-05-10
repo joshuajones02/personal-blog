@@ -1,0 +1,52 @@
+@*
+    Hero / masthead partial.
+    Model: Home.Blog.Mvc.Models.HeroModel
+*@
+@model Home.Blog.Mvc.Models.HeroModel
+@{
+    var hasImage  = !string.IsNullOrWhiteSpace(Model.ImageUrl);
+    var variant   = string.IsNullOrWhiteSpace(Model.Variant) ? "page" : Model.Variant;
+    var classes   = "hero hero--" + variant + (hasImage ? " hero--image" : "");
+}
+
+<header class="@classes"@(hasImage ? new Microsoft.AspNetCore.Html.HtmlString($" style=\"background-image:url('{Model.ImageUrl}')\"") : Microsoft.AspNetCore.Html.HtmlString.Empty)>
+    @if (hasImage)
+    {
+        <div class="hero__overlay" aria-hidden="true"></div>
+    }
+
+    <div class="container hero__inner">
+        @if (Model.Eyebrow != null && !string.IsNullOrWhiteSpace(Model.Eyebrow.Href))
+        {
+            <a class="eyebrow hero__eyebrow" href="@Model.Eyebrow.Href">@Model.Eyebrow.Label</a>
+        }
+        else if (!string.IsNullOrWhiteSpace(Model.EyebrowText))
+        {
+            <span class="eyebrow hero__eyebrow">@Model.EyebrowText</span>
+        }
+
+        <h1 class="hero__title u-text-balance">@Model.Title</h1>
+
+        @if (!string.IsNullOrEmpty(Model.MetaPartial))
+        {
+            <div class="hero__meta">
+                @await Html.PartialAsync(Model.MetaPartial, Model.MetaModel)
+            </div>
+        }
+
+        @if (!string.IsNullOrWhiteSpace(Model.Lead))
+        {
+            <div class="hero__lead lead">@Html.Raw(Model.Lead)</div>
+        }
+
+        @if (Model.Tags != null && Model.Tags.Any())
+        {
+            <div class="hero__tags">
+                @foreach (var tag in Model.Tags)
+                {
+                    <a class="tag-chip" href="@Model.ArchiveUrl/tag/@tag.Slug">@tag.Title</a>
+                }
+            </div>
+        }
+    </div>
+</header>

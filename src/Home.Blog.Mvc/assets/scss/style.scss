@@ -1,13 +1,31 @@
-// ═══════════════════════════════════════════════════
-//  LUMINA — Premium Editorial Blog Theme
-// ═══════════════════════════════════════════════════
+// ═════════════════════════════════════════════════════════════════
+//  Editorial — Personal Blog Theme
+//  Compile via:  npx gulp min   (outputs wwwroot/assets/css/style.min.css)
+// ═════════════════════════════════════════════════════════════════
 
+// 1. Design tokens (CSS custom properties)
+@import "inc/tokens";
+
+// 2. Base / reset / layout primitives
 @import "inc/general";
+
+// 3. Typography
 @import "inc/type";
+
+// 4. Components
 @import "inc/buttons";
+@import "inc/forms";
+@import "inc/alerts";
 @import "inc/cards";
 @import "inc/navbar";
 @import "inc/header";
 @import "inc/blocks";
 @import "inc/posts";
 @import "inc/pagination";
+@import "inc/setup";
+
+// 5. Utilities
+@import "inc/utilities";
+
+// 6. Compatibility for editor-authored Bootstrap markup
+@import "inc/bs-compat";

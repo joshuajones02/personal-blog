@@ -1,0 +1,61 @@
+@*
+    Smart pagination partial.
+    Model:
+        new PaginationModel {
+            CurrentPage = int,
+            TotalPages  = int,
+            UrlBuilder  = Func<int, string>
+        }
+*@
+@model Home.Blog.Mvc.Models.PaginationModel
+@{
+    if (Model == null || Model.TotalPages <= 1) { return; }
+
+    var current = Model.CurrentPage;
+    var total   = Model.TotalPages;
+    var url     = Model.UrlBuilder;
+
+    // Build a windowed page list with ellipsis: 1 … (c-1) [c] (c+1) … total
+    var pages = new List<int?>();
+    void Add(int? n) { if (!pages.Contains(n) || n == null) pages.Add(n); }
+
+    Add(1);
+    if (current - 2 > 2) { Add(null); }
+    for (var i = Math.Max(2, current - 1); i <= Math.Min(total - 1, current + 1); i++) { Add(i); }
+    if (current + 2 < total - 1) { Add(null); }
+    if (total > 1) { Add(total); }
+}
+
+<nav class="pagination" aria-label="Pagination">
+    <a class="pagination__link @(current == 1 ? "is-disabled" : "")"
+       href="@url(Math.Max(1, current - 1))"
+       @(current == 1 ? "aria-disabled=true tabindex=-1" : "")
+       rel="prev"
+       aria-label="Previous page">
+        ← Previous
+    </a>
+
+    @foreach (var p in pages)
+    {
+        if (p == null)
+        {
+            <span class="pagination__ellipsis" aria-hidden="true">…</span>
+        }
+        else if (p == current)
+        {
+            <a class="pagination__link" href="@url(p.Value)" aria-current="page">@p</a>
+        }
+        else
+        {
+            <a class="pagination__link" href="@url(p.Value)">@p</a>
+        }
+    }
+
+    <a class="pagination__link @(current == total ? "is-disabled" : "")"
+       href="@url(Math.Min(total, current + 1))"
+       @(current == total ? "aria-disabled=true tabindex=-1" : "")
+       rel="next"
+       aria-label="Next page">
+        Next →
+    </a>
+</nav>

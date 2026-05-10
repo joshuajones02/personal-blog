@@ -1,10 +1,13 @@
 @model Piranha.Extend.Blocks.ColumnBlock
+@{
+    var count = Math.Max(1, Model.Items.Count);
+}
 
-<div class="row">
-    @for (var n = 0; n < Model.Items.Count; n++)
+<div class="block-columns" style="--col-count: @count">
+    @foreach (var item in Model.Items)
     {
-        <div class="col-md">
-            @Html.DisplayFor(m => Model.Items[n], Model.Items[n].GetType().Name)
+        <div class="block-columns__col">
+            @Html.DisplayFor(m => item, item.GetType().Name)
         </div>
     }
 </div>

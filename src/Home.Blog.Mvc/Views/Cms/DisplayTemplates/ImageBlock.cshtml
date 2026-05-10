@@ -1,3 +1,11 @@
 @model Piranha.Extend.Blocks.ImageBlock
+@{
+    var alt = Model?.Body?.Media?.AltText ?? "";
+}
 
-<img src="@Url.Content(WebApp.Media.ResizeImage(Model, 1110))">
+<figure>
+    <img src="@Url.Content(WebApp.Media.ResizeImage(Model, 1280))"
+         alt="@alt"
+         loading="lazy"
+         decoding="async">
+</figure>

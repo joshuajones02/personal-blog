@@ -1,0 +1,66 @@
+// ─────────────────────────────────────────────────────────────────
+//  Bootstrap compatibility shim
+//
+//  Bootstrap was removed from the layout. This file provides
+//  graceful styling for the small set of Bootstrap classes that
+//  may appear inside CMS-authored HTML (Html/Markdown blocks)
+//  pasted from the rich-text editor.
+//
+//  Scope is intentionally narrow.
+// ─────────────────────────────────────────────────────────────────
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-inline: calc(var(--space-4) * -1);
+
+    > [class*="col"] {
+        padding-inline: var(--space-4);
+        flex: 1 1 0%;
+        min-width: 0;
+    }
+}
+
+.col-12 { flex: 0 0 100%; max-width: 100%; }
+
+@media (min-width: 768px) {
+    .col-md    { flex: 1 1 0%; }
+    .col-md-6  { flex: 0 0 50%; max-width: 50%; }
+    .col-md-4  { flex: 0 0 33.333%; max-width: 33.333%; }
+    .col-md-8  { flex: 0 0 66.666%; max-width: 66.666%; }
+    .col-md-12 { flex: 0 0 100%; max-width: 100%; }
+}
+
+.text-center { text-align: center; }
+.text-end    { text-align: right; }
+.text-start  { text-align: left; }
+
+.img-fluid { max-width: 100%; height: auto; }
+
+.lead {
+    font-family: var(--font-serif, var(--font-display));
+    font-size: var(--text-lg);
+    line-height: 1.55;
+    font-weight: 400;
+    color: var(--slate);
+    margin-bottom: var(--space-5);
+}
+
+.table {
+    width: 100%;
+    margin-bottom: var(--space-6);
+    border-collapse: collapse;
+
+    th, td {
+        padding: var(--space-3) var(--space-4);
+        border-bottom: 1px solid var(--border);
+        text-align: left;
+        vertical-align: top;
+    }
+
+    th {
+        font-weight: 600;
+        color: var(--ink);
+        background: var(--surface-sunk);
+    }
+}

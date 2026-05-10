@@ -1,129 +1,140 @@
 @model StandardArchive
 @{
     ViewData["Title"] = !string.IsNullOrEmpty(Model.MetaTitle) ? Model.MetaTitle : Model.Title;
-    var hasImage = Model.PrimaryImage.HasValue;
 
-    var posts = Model.Archive.Posts.Count;
+    var heroImage = Model.PrimaryImage.HasValue
+        ? Url.Content(WebApp.Media.ResizeImage(Model.PrimaryImage, 1920, 600))
+        : null;
 
-    Func<string> BlogLink = () => {
-        return Model.Permalink
-            + (Model.Archive.Category != null ? $"/category/{Model.Archive.Category.Slug}"  : "")
-            + (Model.Archive.Year.HasValue ? $"/{Model.Archive.Year}" : "" )
-            + (Model.Archive.Month.HasValue ? $"/{Model.Archive.Month}" : "");
-    };
+    var posts = Model.Archive.Posts;
+
+    // URL builder honours active category / year / month / tag filters.
+    string BasePath()
+        => Model.Permalink
+           + (Model.Archive.Category != null ? $"/category/{Model.Archive.Category.Slug}" : "")
+           + (Model.Archive.Tag      != null ? $"/tag/{Model.Archive.Tag.Slug}"           : "")
+           + (Model.Archive.Year.HasValue    ? $"/{Model.Archive.Year}"                   : "")
+           + (Model.Archive.Month.HasValue   ? $"/{Model.Archive.Month}"                  : "");
+
+    Func<int, string> pageUrl = n => $"{BasePath()}/page/{n}";
+
+    var hasFilter = Model.Archive.Category != null
+                 || Model.Archive.Tag      != null
+                 || Model.Archive.Year.HasValue
+                 || Model.Archive.Month.HasValue;
 }
 @section head {
     @WebApp.MetaTags(Model)
 }
 
-<header @(hasImage ? "class=has-image" : "") @(hasImage ? $"style=background-image:url({ @Url.Content(WebApp.Media.ResizeImage(Model.PrimaryImage, 1920, 600)) })" : "")>
-    <div class="dimmer"></div>
-    <div class="container text-center">
-        <h1>@Model.Title</h1>
-        @if (!string.IsNullOrWhiteSpace(Model.Excerpt))
-        {
-            <div class="row justify-content-center">
-                <div class="col-lg-8 lead">
-                    @Html.Raw(Model.Excerpt)
-                </div>
-            </div>
-        }
-    </div>
-</header>
+@await Html.PartialAsync("_Hero", new Home.Blog.Mvc.Models.HeroModel
+{
+    Title    = Model.Title,
+    Lead     = Model.Excerpt,
+    ImageUrl = heroImage,
+    Variant  = "page"
+})
 
-<main class="archive">
-    @foreach (var block in Model.Blocks)
+<div class="container">
+    @* Optional CMS-authored intro blocks *@
+    @if (Model.Blocks.Any())
     {
-        <div class="block @block.CssName()">
-            <div class="container">
-                @Html.DisplayFor(m => block, block.GetType().Name)
-            </div>
+        <div class="archive__intro u-mb-12">
+            @foreach (var block in Model.Blocks)
+            {
+                <div class="block @block.CssName()">
+                    @Html.DisplayFor(m => block, block.GetType().Name)
+                </div>
+            }
         </div>
     }
-    <div class="container">
-        @for (var n = 0; n < posts; n += 2)
-        {
-            <div class="row g-4 mb-4">
-                @for (var i = n; i < Math.Min(posts, n + 2); i++)
-                {
-                    var post = Model.Archive.Posts[i];
 
-                    <div class="@(i == 0 ? "col-12" : "col-md-6")">
-                        <article>
-                            <header>
-                                @if (post.PrimaryImage.HasValue)
+    @if (hasFilter)
+    {
+        <div class="filter-bar">
+            <span class="filter-bar__label">Filtering by</span>
+            <span class="filter-bar__value">
+                @if (Model.Archive.Category != null) { @Model.Archive.Category.Title }
+                @if (Model.Archive.Tag      != null) { <text>#@Model.Archive.Tag.Title</text> }
+                @if (Model.Archive.Year.HasValue && Model.Archive.Month.HasValue)
+                { @($"{System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(Model.Archive.Month.Value)} {Model.Archive.Year}") }
+                else if (Model.Archive.Year.HasValue) { @Model.Archive.Year }
+            </span>
+            <a class="filter-bar__clear" href="@Model.Permalink">Clear filter</a>
+        </div>
+    }
+
+    @if (!posts.Any())
+    {
+        <div class="empty-state">
+            <h2 class="empty-state__title">No posts here yet</h2>
+            <p class="empty-state__body">
+                @(hasFilter
+                    ? "We couldn't find any posts matching the current filter. Try clearing it to see everything."
+                    : "There aren't any published posts in this archive yet. Check back soon.")
+            </p>
+            @if (hasFilter)
+            {
+                <a class="btn btn-primary" href="@Model.Permalink">View all posts</a>
+            }
+        </div>
+    }
+    else
+    {
+        <section class="archive" aria-label="Posts">
+            <div class="post-grid">
+                @for (var i = 0; i < posts.Count; i++)
+                {
+                    var post = posts[i];
+                    var isFeatured = i == 0 && Model.Archive.CurrentPage == 1 && !hasFilter;
+                    var classes = "post-card" + (isFeatured ? " post-card--featured" : "");
+
+                    <a class="@classes" href="@post.Permalink" aria-label="@post.Title">
+                        @if (post.PrimaryImage.HasValue)
+                        {
+                            var imgWidth  = isFeatured ? 1200 : 720;
+                            var imgHeight = isFeatured ? 900  : 460;
+                            <div class="post-card__media">
+                                <img src="@Url.Content(WebApp.Media.ResizeImage(post.PrimaryImage, imgWidth, imgHeight))"
+                                     alt="@(post.PrimaryImage.Media?.AltText ?? post.Title)"
+                                     loading="@(isFeatured ? "eager" : "lazy")"
+                                     decoding="async">
+                            </div>
+                        }
+
+                        <div class="post-card__body">
+                            @{
+                                var cardMeta = new Home.Blog.Mvc.Models.PostMetaModel
                                 {
-                                    <a href="@post.Permalink">
-                                        <img class="rounded" src="@Url.Content(WebApp.Media.ResizeImage(post.PrimaryImage, 1140, 500))" alt="@post.PrimaryImage.Media.AltText">
-                                    </a>
-                                }
-                                <p class="post-meta">
-                                    <span>
-                                        <a href="@Model.Permalink/category/@post.Category.Slug">@post.Category.Title</a>
-                                    </span>
-                                    @if (post.IsPublished)
-                                    {
-                                        <span>
-                                            @post.Published.Value.ToString("MMMM d, yyyy")
-                                        </span>
-                                    }
-                                    @if (post.EnableComments && post.CommentCount > 0)
-                                    {
-                                        <span>
-                                            <a href="@post.Permalink#comments">@post.CommentCount @(post.CommentCount == 1 ? "comment" : "comments")</a>
-                                        </span>
-                                    }
-                                </p>
-                                <h3><a href="@post.Permalink">@post.Title</a></h3>
-                                <p>@Html.Raw(post.Excerpt)</p>
-                                <a href="@post.Permalink" class="read-more">Continue Reading</a>
-                            </header>
-                        </article>
-                    </div>
-                    @if (i == 0)
-                    {
-                        n--;
-                        break;
-                    }
+                                    CategoryTitle     = post.Category?.Title,
+                                    CategoryUrl       = post.Category != null ? $"{Model.Permalink}/category/{post.Category.Slug}" : null,
+                                    PublishedDate     = post.IsPublished ? post.Published : null,
+                                    CommentCount      = post.EnableComments ? post.CommentCount : 0,
+                                    CommentsAnchorUrl = $"{post.Permalink}#comments",
+                                    ShowCategory      = true
+                                };
+                            }
+                            @await Html.PartialAsync("_PostMeta", cardMeta)
+
+                            <h2 class="post-card__title u-text-balance">@post.Title</h2>
+
+                            @if (!string.IsNullOrWhiteSpace(post.Excerpt))
+                            {
+                                <div class="post-card__excerpt">@Html.Raw(post.Excerpt)</div>
+                            }
+
+                            <span class="post-card__more read-more">Continue reading</span>
+                        </div>
+                    </a>
                 }
             </div>
-        }
-        @if (Model.Archive.TotalPages > 1) {
-            <div class="row">
-                <div class="col-sm">
-                    <nav aria-label="Page navigation">
-                    <ul class="pagination justify-content-center">
-                        <li class="page-item @(Model.Archive.CurrentPage == 1 ? "disabled" : "")">
-                            <a class="page-link" href="@BlogLink()/page/1">
-                                <span aria-hidden="true">&laquo;</span>
-                                <span class="visually-hidden">First</span>
-                            </a>
-                        </li>
-                        <li class="page-item @(Model.Archive.CurrentPage == 1 ? "disabled" : "")">
-                            <a class="page-link" href="@BlogLink()/page/@Math.Max(1, Model.Archive.CurrentPage - 1)">
-                                <span aria-hidden="true">&lsaquo;</span>
-                                <span class="visually-hidden">Previous</span>
-                            </a>
-                        </li>
-                        @for (var n = 1; n <= Model.Archive.TotalPages; n++) {
-                            <li class="page-item @(Model.Archive.CurrentPage == n ? "active" : "")"><a class="page-link" href="@BlogLink()/page/@n">@n</a></li>
-                        }
-                        <li class="page-item @(Model.Archive.CurrentPage == Model.Archive.TotalPages ? "disabled" : "")">
-                            <a class="page-link" href="@BlogLink()/page/@Math.Min(Model.Archive.TotalPages, Model.Archive.CurrentPage + 1)">
-                                <span aria-hidden="true">&rsaquo;</span>
-                                <span class="visually-hidden">Next</span>
-                            </a>
-                        </li>
-                        <li class="page-item @(Model.Archive.CurrentPage == Model.Archive.TotalPages ? "disabled" : "")">
-                            <a class="page-link" href="@BlogLink()/page/@Model.Archive.TotalPages">
-                                <span aria-hidden="true">&raquo;</span>
-                                <span class="visually-hidden">Last</span>
-                            </a>
-                        </li>
-                    </ul>
-                    </nav>
-                </div>
-            </div>
-        }
-    </div>
-</main>
+        </section>
+
+        @await Html.PartialAsync("_Pagination", new Home.Blog.Mvc.Models.PaginationModel
+        {
+            CurrentPage = Model.Archive.CurrentPage,
+            TotalPages  = Model.Archive.TotalPages,
+            UrlBuilder  = pageUrl
+        })
+    }
+</div>

@@ -1,0 +1,64 @@
+// ─────────────────────────────────────────────────────────────────
+//  Small utility set (replaces Bootstrap utilities we relied on)
+// ─────────────────────────────────────────────────────────────────
+
+// ── Display ──────────────────────────────────────────────────────
+.u-block      { display: block; }
+.u-inline     { display: inline; }
+.u-inline-block { display: inline-block; }
+.u-flex       { display: flex; }
+.u-inline-flex{ display: inline-flex; }
+.u-grid       { display: grid; }
+.u-hidden     { display: none !important; }
+
+// ── Flex helpers ─────────────────────────────────────────────────
+.u-flex-wrap        { flex-wrap: wrap; }
+.u-flex-col         { flex-direction: column; }
+.u-justify-center   { justify-content: center; }
+.u-justify-between  { justify-content: space-between; }
+.u-justify-end      { justify-content: flex-end; }
+.u-items-center     { align-items: center; }
+.u-items-start      { align-items: flex-start; }
+.u-items-end        { align-items: flex-end; }
+
+// ── Text alignment ───────────────────────────────────────────────
+.u-text-center { text-align: center; }
+.u-text-left   { text-align: left; }
+.u-text-right  { text-align: right; }
+.u-text-balance { text-wrap: balance; }
+.u-text-pretty  { text-wrap: pretty; }
+
+// ── Spacing helpers (margin/gap) ─────────────────────────────────
+@each $name, $val in (
+    "0": var(--space-0),
+    "1": var(--space-1),
+    "2": var(--space-2),
+    "3": var(--space-3),
+    "4": var(--space-4),
+    "5": var(--space-5),
+    "6": var(--space-6),
+    "8": var(--space-8),
+    "10": var(--space-10),
+    "12": var(--space-12),
+    "16": var(--space-16)
+) {
+    .u-mt-#{$name} { margin-top:    #{$val}; }
+    .u-mb-#{$name} { margin-bottom: #{$val}; }
+    .u-mx-#{$name} { margin-left:   #{$val}; margin-right: #{$val}; }
+    .u-my-#{$name} { margin-top:    #{$val}; margin-bottom: #{$val}; }
+    .u-gap-#{$name} { gap:          #{$val}; }
+}
+
+// ── Misc ─────────────────────────────────────────────────────────
+.u-w-full   { width: 100%; }
+.u-mw-prose { max-width: 65ch; }
+.u-relative { position: relative; }
+.u-rounded  { border-radius: var(--radius-lg); }
+
+// ── Responsive helpers ───────────────────────────────────────────
+@media (max-width: 640px) {
+    .u-hide-sm { display: none !important; }
+}
+@media (min-width: 641px) {
+    .u-show-sm-only { display: none !important; }
+}

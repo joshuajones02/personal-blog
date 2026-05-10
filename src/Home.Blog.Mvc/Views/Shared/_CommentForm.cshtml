@@ -1,0 +1,132 @@
+@*
+    Comment submission form.
+    Model: Home.Blog.Mvc.Models.CommentFormModel
+*@
+@model Home.Blog.Mvc.Models.CommentFormModel
+@{
+    string FieldError(string key) =>
+        Model.FieldErrors != null && Model.FieldErrors.TryGetValue(key, out var msg) ? msg : null;
+
+    var authorErr = FieldError(nameof(SaveCommentModel.CommentAuthor));
+    var emailErr  = FieldError(nameof(SaveCommentModel.CommentEmail));
+    var urlErr    = FieldError(nameof(SaveCommentModel.CommentUrl));
+    var bodyErr   = FieldError(nameof(SaveCommentModel.CommentBody));
+}
+
+<section id="comment-form" class="comment-form" aria-labelledby="comment-form-title">
+    <form action="@Model.ActionUrl" method="post" class="form" novalidate>
+        @Html.AntiForgeryToken()
+        <input type="hidden" name="Id" value="@Model.PostId" />
+
+        <h3 class="form__title" id="comment-form-title">Leave a comment</h3>
+        <p class="form__intro">
+            Your email address won't be shared publicly — we'll only use it for your Gravatar image.
+        </p>
+
+        @if (Model.FormErrors != null && Model.FormErrors.Any())
+        {
+            <div class="alert alert-danger validation-summary" role="alert" aria-live="polite">
+                <p><strong>We couldn't post your comment.</strong></p>
+                <ul>
+                    @foreach (var err in Model.FormErrors)
+                    {
+                        <li>@err</li>
+                    }
+                </ul>
+            </div>
+        }
+        else if (Model.HasErrors)
+        {
+            <div class="alert alert-danger validation-summary" role="alert" aria-live="polite">
+                Please correct the errors below and try again.
+            </div>
+        }
+
+        <div class="form-row">
+            <div class="field @(authorErr != null ? "field--invalid" : null)">
+                <label class="field-label" for="comment-author">
+                    Name <span class="field-required" aria-hidden="true">*</span>
+                </label>
+                <input id="comment-author"
+                       name="CommentAuthor"
+                       type="text"
+                       class="form-control"
+                       value="@Model.Author"
+                       autocomplete="name"
+                       required
+                       aria-required="true"
+                       aria-invalid="@(authorErr != null ? "true" : "false")"
+                       @(authorErr != null ? "aria-describedby=comment-author-error" : "")>
+                @if (authorErr != null)
+                {
+                    <span class="field-error" id="comment-author-error">@authorErr</span>
+                }
+            </div>
+
+            <div class="field @(emailErr != null ? "field--invalid" : null)">
+                <label class="field-label" for="comment-email">
+                    Email <span class="field-required" aria-hidden="true">*</span>
+                </label>
+                <input id="comment-email"
+                       name="CommentEmail"
+                       type="email"
+                       class="form-control"
+                       value="@Model.Email"
+                       autocomplete="email"
+                       required
+                       aria-required="true"
+                       aria-invalid="@(emailErr != null ? "true" : "false")"
+                       aria-describedby="@(emailErr != null ? "comment-email-error" : "comment-email-help")">
+                @if (emailErr != null)
+                {
+                    <span class="field-error" id="comment-email-error">@emailErr</span>
+                }
+                else
+                {
+                    <span class="field-help" id="comment-email-help">Used only for your Gravatar.</span>
+                }
+            </div>
+        </div>
+
+        <div class="field @(urlErr != null ? "field--invalid" : null)">
+            <label class="field-label" for="comment-url">
+                Website <span class="field-optional">(optional)</span>
+            </label>
+            <input id="comment-url"
+                   name="CommentUrl"
+                   type="url"
+                   class="form-control"
+                   value="@Model.Url"
+                   autocomplete="url"
+                   placeholder="https://"
+                   aria-invalid="@(urlErr != null ? "true" : "false")"
+                   @(urlErr != null ? "aria-describedby=comment-url-error" : "")>
+            @if (urlErr != null)
+            {
+                <span class="field-error" id="comment-url-error">@urlErr</span>
+            }
+        </div>
+
+        <div class="field @(bodyErr != null ? "field--invalid" : null)">
+            <label class="field-label" for="comment-body">
+                Comment <span class="field-required" aria-hidden="true">*</span>
+            </label>
+            <textarea id="comment-body"
+                      name="CommentBody"
+                      rows="5"
+                      class="form-control"
+                      required
+                      aria-required="true"
+                      aria-invalid="@(bodyErr != null ? "true" : "false")"
+                      @(bodyErr != null ? "aria-describedby=comment-body-error" : "")>@Model.Body</textarea>
+            @if (bodyErr != null)
+            {
+                <span class="field-error" id="comment-body-error">@bodyErr</span>
+            }
+        </div>
+
+        <div class="form__actions">
+            <button type="submit" class="btn btn-primary">Post comment</button>
+        </div>
+    </form>
+</section>
