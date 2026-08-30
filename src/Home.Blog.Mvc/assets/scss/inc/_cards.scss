@@ -1,156 +1,49 @@
-.card {
-    background: #fff;
-    border: 1px solid rgba($mist, 0.6);
-    border-radius: $radius-2xl;
-    box-shadow: $shadow-sm;
-    transition: all 0.4s $ease-out;
-    overflow: hidden;
-    position: relative;
+// ═══════════════════════════════════════════════════
+//  HORIZON — Cards
+// ═══════════════════════════════════════════════════
 
-    // Animated gradient border on hover
-    &::before {
-        content: '';
-        position: absolute;
-        inset: -1px;
-        border-radius: inherit;
-        padding: 1px;
-        background: $gradient-border;
-        -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-        mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-        -webkit-mask-composite: xor;
-        mask-composite: exclude;
-        opacity: 0;
-        transition: opacity 0.4s $ease-out;
-        z-index: 1;
-        pointer-events: none;
-    }
+.card {
+    border: 1px solid $color-border;
+    border-radius: $radius;
+    background: $color-card;
+    overflow: hidden;
+    box-shadow: $shadow-sm;
+    transition: transform $transition, box-shadow $transition;
 
     &:hover {
         transform: translateY(-4px);
         box-shadow: $shadow-lg;
-
-        &::before {
-            opacity: 1;
-        }
-
-        .card-img-wrapper img,
-        .card-img,
-        .card-img-top {
-            transform: scale(1.04);
-        }
     }
 
-    .card-img-wrapper {
-        overflow: hidden;
-        position: relative;
+    .card-img-top {
+        aspect-ratio: 16 / 9;
+        object-fit: cover;
+        transition: transform .5s ease;
     }
 
-    .card-img, .card-img-top {
-        border-radius: 0;
-        transition: transform 0.6s $ease-out;
+    &:hover .card-img-top {
+        transform: scale(1.03);
     }
 
     .card-body {
         padding: 1.5rem;
-        position: relative;
     }
 
     .card-title {
-        font-family: 'Playfair Display', Georgia, serif;
         font-size: 1.25rem;
-        font-weight: 700;
-        margin-bottom: 0.5rem;
+        margin-bottom: .5rem;
 
         a {
-            color: $ink;
+            color: $color-ink;
 
             &:hover {
-                color: $indigo;
+                color: $color-primary;
             }
         }
     }
 
     .card-text {
-        color: $slate;
-        line-height: 1.7;
-        font-size: 0.9375rem;
-    }
-
-    .card-meta {
-        font-size: 0.8125rem;
-        color: $silver;
-        margin-bottom: 0.75rem;
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-    }
-
-    .card-footer {
-        background: $cloud;
-        border: none;
-        padding: 1rem 1.5rem;
-    }
-}
-
-.card-badge {
-    position: absolute;
-    top: 1rem;
-    left: 1rem;
-    background: $gradient-primary;
-    color: #fff;
-    padding: 0.3rem 0.75rem;
-    border-radius: $radius-full;
-    font-size: 0.7rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    z-index: 2;
-}
-
-.card-horizontal {
-    display: flex;
-    flex-direction: row;
-
-    .card-img-wrapper {
-        flex: 0 0 40%;
-        max-width: 40%;
-    }
-
-    .card-body {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-    }
-
-    @media (max-width: 768px) {
-        flex-direction: column;
-
-        .card-img-wrapper {
-            flex: none;
-            max-width: 100%;
-        }
-    }
-}
-
-.card-featured {
-    border-left: 4px solid $indigo;
-
-    &:hover {
-        border-left-color: $orange;
-    }
-}
-
-a.card-link {
-    color: inherit;
-    display: block;
-
-    .card-title {
-        color: $ink;
-        transition: color 0.25s ease;
-    }
-
-    &:hover .card-title {
-        color: $indigo;
+        color: $color-muted;
+        font-size: .975rem;
     }
 }

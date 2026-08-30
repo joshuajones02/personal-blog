@@ -1,83 +1,131 @@
-.navbar.fixed-top {
-    background: rgba(255, 255, 255, 0.8);
-    backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
-    border: none;
-    border-bottom: 1px solid rgba($mist, 0.5);
-    font-family: 'Inter', sans-serif;
-    padding: 1rem 0;
-    transition: all 0.4s $ease-out;
+// ═══════════════════════════════════════════════════
+//  HORIZON — Navbar
+// ═══════════════════════════════════════════════════
 
-    &.scrolled {
-        padding: 0.625rem 0;
-        background: rgba(255, 255, 255, 0.95);
-        box-shadow: $shadow-md;
-        border-bottom-color: transparent;
-    }
-
-    .container {
-        display: flex;
-        align-items: center;
-    }
+.navbar {
+    padding: 1.1rem 0;
+    background: transparent;
+    transition: background $transition, box-shadow $transition, padding $transition;
 
     .navbar-brand {
-        transition: opacity 0.2s ease;
+        font-family: $font-serif;
+        font-size: 1.45rem;
+        font-weight: 700;
+        color: #fff;
+        display: flex;
+        align-items: baseline;
+        gap: .5rem;
 
-        &:hover {
-            opacity: 0.7;
+        small {
+            font-family: $font-sans;
+            font-size: .7rem;
+            font-weight: 600;
+            letter-spacing: .22em;
+            text-transform: uppercase;
+            color: rgba(#fff, .7);
         }
     }
 
-    .navbar-nav {
-        font-size: 0.875rem;
-        font-weight: 500;
-        gap: 0.25rem;
+    .nav-link {
+        font-size: .92rem;
+        font-weight: 600;
+        letter-spacing: .04em;
+        color: rgba(#fff, .85);
+        padding: .5rem 1rem !important;
+        position: relative;
 
-        .nav-item {
-            .nav-link {
-                color: $graphite;
-                padding: 0.5rem 0.875rem;
-                border-radius: $radius-full;
-                transition: all 0.25s ease;
-                position: relative;
+        &::after {
+            content: "";
+            position: absolute;
+            left: 1rem;
+            right: 1rem;
+            bottom: .25rem;
+            height: 2px;
+            background: $color-accent;
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform $transition;
+        }
 
-                &:hover {
-                    color: $indigo;
-                    background: $indigo-subtle;
-                }
-            }
+        &:hover, &:focus {
+            color: #fff;
+        }
+    }
 
-            &.active {
-                .nav-link {
-                    color: $indigo;
-                    background: $indigo-subtle;
-                    font-weight: 600;
-                }
-            }
+    .nav-item.active .nav-link,
+    .nav-link:hover {
+        color: #fff;
+
+        &::after {
+            transform: scaleX(1);
         }
     }
 
     .navbar-toggler {
-        padding: 0.5rem 0.75rem;
-        border: 1px solid $mist;
-        border-radius: $radius-lg;
-        transition: all 0.25s ease;
-        background: #fff;
-
-        &:hover {
-            border-color: $indigo;
-            background: $indigo-subtle;
-        }
+        border: 0;
+        color: #fff;
 
         &:focus {
-            box-shadow: 0 0 0 3px rgba($indigo, 0.12);
-            border-color: $indigo;
-            outline: none;
+            box-shadow: none;
         }
 
         .navbar-toggler-icon {
-            width: 1.25em;
-            height: 1.25em;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.9%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
+    }
+
+    // Solid state on scroll or when menu is open
+    &.scrolled,
+    &.menu-open {
+        background: rgba(#fff, .96);
+        backdrop-filter: blur(12px);
+        box-shadow: $shadow-sm;
+        padding: .65rem 0;
+
+        .navbar-brand {
+            color: $color-ink;
+
+            small {
+                color: $color-muted;
+            }
+        }
+
+        .nav-link {
+            color: $color-body;
+
+            &:hover, &:focus {
+                color: $color-ink;
+            }
+        }
+
+        .nav-item.active .nav-link {
+            color: $color-ink;
+        }
+
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%2828, 25, 23, 0.9%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
+    }
+}
+
+@media (max-width: 991.98px) {
+    .navbar .navbar-collapse {
+        background: rgba(#fff, .98);
+        margin: .75rem -.75rem 0;
+        padding: .75rem 1.25rem 1rem;
+        border-radius: $radius;
+        box-shadow: $shadow;
+
+        .nav-link {
+            color: $color-body;
+
+            &:hover {
+                color: $color-ink;
+            }
+        }
+
+        .nav-item.active .nav-link {
+            color: $color-ink;
         }
     }
 }

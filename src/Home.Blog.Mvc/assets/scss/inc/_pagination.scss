@@ -1,73 +1,42 @@
+// ═══════════════════════════════════════════════════
+//  HORIZON — Pagination
+// ═══════════════════════════════════════════════════
+
 .pagination {
-    gap: 0.25rem;
-    margin-top: 3rem;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-}
-
-.page-link {
-    color: $graphite;
-    min-width: 2.5rem;
-    height: 2.5rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: $radius-full;
-    border: 1px solid $mist;
-    background: #fff;
-    font-weight: 600;
-    font-size: 0.8125rem;
-    transition: all 0.2s ease;
-
-    &:hover {
-        color: $indigo;
-        border-color: $indigo;
-        background: $indigo-subtle;
-    }
-}
-
-.page-item {
-    &.active {
-        .page-link {
-            background: $gradient-primary;
-            border-color: $indigo;
-            color: #fff;
-
-            &:hover {
-                box-shadow: $shadow-primary;
-            }
-        }
-    }
-
-    &.disabled {
-        .page-link {
-            color: $silver;
-            background: $cloud;
-            border-color: $cloud;
-            cursor: not-allowed;
-        }
-    }
-
-    &:first-child,
-    &:nth-child(2),
-    &:nth-last-child(2),
-    &:last-child {
-        .page-link {
-            min-width: auto;
-            padding: 0 0.625rem;
-        }
-    }
-}
-
-@media (max-width: 576px) {
-    .pagination {
-        gap: 0.2rem;
-    }
+    margin: 3rem 0 1rem;
+    gap: .35rem;
 
     .page-link {
-        min-width: 2.25rem;
-        height: 2.25rem;
-        font-size: 0.75rem;
+        border: 0;
+        border-radius: 50% !important;
+        width: 2.5rem;
+        height: 2.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        font-size: .9rem;
+        color: $color-body;
+        background: transparent;
+        transition: all $transition;
+
+        &:hover {
+            background: $color-surface-alt;
+            color: $color-ink;
+        }
+
+        &:focus {
+            box-shadow: 0 0 0 .2rem rgba($color-primary, .15);
+        }
+    }
+
+    .page-item.active .page-link {
+        background: $color-primary;
+        color: #fff;
+    }
+
+    .page-item.disabled .page-link {
+        color: $color-faint;
+        background: transparent;
     }
 }

@@ -8,7 +8,7 @@
     @WebApp.MetaTags(Model)
 }
 
-<header @(hasImage ? "class=has-image" : "") @(hasImage ? $"style=background-image:url({ @Url.Content(WebApp.Media.ResizeImage(Model.PrimaryImage, 1920, 700)) })" : "")>
+<header class="page-hero@(hasImage ? " has-image" : "")" @(hasImage ? $"style=background-image:url({ @Url.Content(WebApp.Media.ResizeImage(Model.PrimaryImage, 1920, 700)) })" : "")>
     <div class="dimmer"></div>
     <div class="container text-center">
         <a href="@archive.Permalink/category/@Model.Category.Slug" class="subheading">@Model.Category.Title</a>
@@ -48,21 +48,23 @@
 </header>
 
 <main>
-    @foreach (var block in Model.Blocks)
-    {
-        <div class="block @block.CssName()">
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-lg-9">
-                        @Html.DisplayFor(m => block, block.GetType().Name)
+    <article>
+        @foreach (var block in Model.Blocks)
+        {
+            <div class="block @block.CssName()">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-9">
+                            @Html.DisplayFor(m => block, block.GetType().Name)
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    }
+        }
+    </article>
     @if (Model.EnableComments)
     {
-        <div id="comments" class="container comments">
+        <section id="comments" class="container comments" aria-label="Comments">
             <div class="row justify-content-center">
                 <div class="col-lg-9">
                     @if (Model.IsCommentsOpen)
@@ -101,6 +103,6 @@
                     @Html.DisplayFor(m => m.Comments)
                 </div>
             </div>
-        </div>
+        </section>
     }
 </main>

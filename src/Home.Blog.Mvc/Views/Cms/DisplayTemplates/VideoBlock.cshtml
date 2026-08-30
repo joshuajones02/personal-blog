@@ -1,6 +1,6 @@
 @model Piranha.Extend.Blocks.VideoBlock
 
-<video class="mw-100" controls>
+<video class="mw-100" controls preload="metadata">
     <source src="@Url.Content(Model.Body)">
     Your browser does not support the video tag.
 </video>

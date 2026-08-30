@@ -7,7 +7,7 @@
         {
             <div class="card-img-wrapper">
                 <a href="@WebApp.Url(Model)">
-                    <img class="card-img-top" src="@Url.Content(WebApp.Media.ResizeImage(Model.Body.Post.PrimaryImage, 540, 300))" alt="@Model.Body.Post.Title">
+                    <img class="card-img-top" src="@Url.Content(WebApp.Media.ResizeImage(Model.Body.Post.PrimaryImage, 540, 300))" alt="@(Model.Body.Post.PrimaryImage.Media?.AltText ?? Model.Body.Post.Title)" loading="lazy">
                 </a>
             </div>
         }
