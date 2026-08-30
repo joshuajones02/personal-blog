@@ -14,7 +14,7 @@
         <a href="@archive.Permalink/category/@Model.Category.Slug" class="subheading">@Model.Category.Title</a>
         <h1>@Model.Title</h1>
         <p class="post-meta mb-3">
-            @if (Model.IsPublished)
+            @if (Model.IsPublished && Model.Published.HasValue)
             {
                 <span>
                     @Model.Published.Value.ToString("MMMM d, yyyy")

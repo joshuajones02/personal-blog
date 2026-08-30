@@ -53,7 +53,7 @@ public class MinioStorage : IStorage
     /// <param name="media">The media object</param>
     /// <param name="filename">The file name</param>
     /// <returns>The public URL</returns>
-    public string GetPublicUrl(Piranha.Models.Media media, string filename)
+    public string? GetPublicUrl(Piranha.Models.Media media, string filename)
     {
         if (!string.IsNullOrWhiteSpace(filename))
         {

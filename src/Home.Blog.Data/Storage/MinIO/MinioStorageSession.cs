@@ -17,7 +17,6 @@ public class MinioStorageSession : IStorageSession
     private readonly IMinioClient _client;
     private readonly MinioStorageNaming _naming;
     private readonly string _bucketName;
-    private bool _disposed;
 
     /// <summary>
     /// Creates a new MinIO storage session.

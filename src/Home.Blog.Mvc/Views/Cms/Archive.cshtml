@@ -61,7 +61,7 @@
                                     <span>
                                         <a href="@Model.Permalink/category/@post.Category.Slug">@post.Category.Title</a>
                                     </span>
-                                    @if (post.IsPublished)
+                                    @if (post.IsPublished && post.Published.HasValue)
                                     {
                                         <span>
                                             @post.Published.Value.ToString("MMMM d, yyyy")
