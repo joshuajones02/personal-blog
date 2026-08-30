@@ -1,6 +1,6 @@
 @model Piranha.Extend.Blocks.AudioBlock
 
-<audio width="100%" controls>
-    <source src="@Url.Content(Model.Body)" type="">
+<audio class="w-100" controls preload="metadata">
+    <source src="@Url.Content(Model.Body)">
     Your browser does not support the audio tag.
 </audio>

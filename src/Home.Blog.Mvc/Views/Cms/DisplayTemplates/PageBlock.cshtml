@@ -6,7 +6,7 @@
         @if (Model.Body.Page.PrimaryImage.HasValue)
         {
             <div class="card-img-wrapper">
-                <img class="card-img-top" src="@Url.Content(WebApp.Media.ResizeImage(Model.Body.Page.PrimaryImage, 540, 300))" alt="@Model.Body.Page.Title">
+                <img class="card-img-top" src="@Url.Content(WebApp.Media.ResizeImage(Model.Body.Page.PrimaryImage, 540, 300))" alt="@(Model.Body.Page.PrimaryImage.Media?.AltText ?? Model.Body.Page.Title)" loading="lazy">
             </div>
         }
         <div class="card-body d-flex flex-column">

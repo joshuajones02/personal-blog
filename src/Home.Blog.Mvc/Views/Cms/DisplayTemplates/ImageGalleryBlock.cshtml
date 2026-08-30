@@ -18,7 +18,7 @@
         @foreach (var item in images)
         {
             <div class="carousel-item @(item == images.First() ? "active" : "")">
-                <img src="@Url.Content(WebApp.Media.ResizeImage(((ImageBlock)item).Body.Media, 1100, 500))" class="d-block w-100" alt="">
+                <img src="@Url.Content(WebApp.Media.ResizeImage(((ImageBlock)item).Body.Media, 1100, 550))" class="d-block w-100" alt="@(((ImageBlock)item).Body.Media?.AltText ?? ((ImageBlock)item).Body.Media?.Title)" loading="lazy">
             </div>
         }
     </div>
