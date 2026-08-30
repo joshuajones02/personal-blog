@@ -17,6 +17,9 @@
 - **Flow Mode**: Automatic
 - **Target Framework**: net10.0 (LTS)
 
+### Technical Preferences
+- **AutoMapper**: Pinned to exactly `[12.0.1]` in Home.Blog.Mvc — required by Piranha.Data.EF 12.2.0 (AutoMapper 13+ breaks Piranha startup). NU1903 advisory suppressed per user approval (2025); revisit when Piranha updates AutoMapper.
+
 ## Source Control
 - **Source Branch**: redesign/chatgpt-prompt
 - **Working Branch**: upgrade-dotnet-10

@@ -21,6 +21,7 @@ public static class MinioStorageExtensions
     /// <param name="naming">The naming strategy (default: UniqueFileNames)</param>
     /// <param name="secure">Whether to use HTTPS (default: false)</param>
     /// <param name="scope">The service lifetime (default: Singleton)</param>
+    /// <param name="publicEndpoint">Optional public host name used when generating public URLs (e.g., "media.mydomain.com")</param>
     /// <returns>The updated service builder</returns>
     public static PiranhaServiceBuilder UseMinioStorage(
         this PiranhaServiceBuilder serviceBuilder,
@@ -30,7 +31,8 @@ public static class MinioStorageExtensions
         string bucketName = "uploads",
         MinioStorageNaming naming = MinioStorageNaming.UniqueFileNames,
         bool secure = false,
-        ServiceLifetime scope = ServiceLifetime.Singleton)
+        ServiceLifetime scope = ServiceLifetime.Singleton,
+        string? publicEndpoint = null)
     {
         // Register MinIO client as singleton
         serviceBuilder.Services.AddSingleton<IMinioClient>(sp =>
@@ -55,7 +57,8 @@ public static class MinioStorageExtensions
                 bucketName,
                 naming,
                 endpoint,
-                secure),
+                secure,
+                publicEndpoint),
             scope));
 
         return serviceBuilder;
@@ -63,7 +66,7 @@ public static class MinioStorageExtensions
 
     /// <summary>
     /// Adds the MinIO storage service to Piranha CMS using a connection string.
-    /// Connection string format: "endpoint=localhost:9000;accessKey=minioadmin;secretKey=minioadmin;secure=false"
+    /// Connection string format: "endpoint=localhost:9000;accessKey=minioadmin;secretKey=minioadmin;secure=false;publicEndpoint=media.mydomain.com"
     /// </summary>
     /// <param name="serviceBuilder">The service builder</param>
     /// <param name="connectionString">The MinIO connection string</param>
@@ -88,7 +91,8 @@ public static class MinioStorageExtensions
             bucketName,
             naming,
             connectionParams.secure,
-            scope);
+            scope,
+            connectionParams.publicEndpoint);
     }
 
     /// <summary>
@@ -96,11 +100,12 @@ public static class MinioStorageExtensions
     /// </summary>
     /// <param name="connectionString">The connection string</param>
     /// <returns>Parsed connection parameters</returns>
-    private static (string endpoint, string accessKey, string secretKey, bool secure) ParseConnectionString(string connectionString)
+    private static (string endpoint, string accessKey, string secretKey, bool secure, string? publicEndpoint) ParseConnectionString(string connectionString)
     {
         string? endpoint = null;
         string? accessKey = null;
         string? secretKey = null;
+        string? publicEndpoint = null;
         bool secure = false;
 
         var parts = connectionString.Split(';', StringSplitOptions.RemoveEmptyEntries);
@@ -126,6 +131,9 @@ public static class MinioStorageExtensions
                     case "secure":
                         secure = bool.TryParse(value, out bool secureValue) && secureValue;
                         break;
+                    case "publicendpoint":
+                        publicEndpoint = value;
+                        break;
                 }
             }
         }
@@ -137,6 +145,6 @@ public static class MinioStorageExtensions
         if (string.IsNullOrWhiteSpace(secretKey))
             throw new ArgumentException("MinIO connection string must contain 'secretKey'");
 
-        return (endpoint, accessKey, secretKey, secure);
+        return (endpoint, accessKey, secretKey, secure, publicEndpoint);
     }
 }
