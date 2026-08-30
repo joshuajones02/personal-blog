@@ -1,13 +1,15 @@
-// ═══════════════════════════════════════════════════
-//  LUMINA — Premium Editorial Blog Theme
-// ═══════════════════════════════════════════════════
-
-@import "inc/general";
-@import "inc/type";
-@import "inc/buttons";
-@import "inc/cards";
-@import "inc/navbar";
-@import "inc/header";
-@import "inc/blocks";
-@import "inc/posts";
-@import "inc/pagination";
+// ============================================================
+// FABLE — a warm editorial theme for Piranha CMS
+// Architecture (ITCSS-inspired):
+//   abstracts/  tokens + mixins (no CSS output except :root vars)
+//   base/       reset + element typography
+//   layout/     page shell, header, nav, hero, footer
+//   components/ buttons, cards, pagination, forms, comments,
+//               and Piranha block display styles
+// ============================================================
+@use 'abstracts/tokens';
+@use 'base/reset';
+@use 'base/typography';
+@use 'layout/shell';
+@use 'components/components';
+@use 'components/blocks';

@@ -1,0 +1,146 @@
+// ============================================================
+// FABLE — Piranha block display styles
+// Each class maps to a partial in Views/Cms/DisplayTemplates.
+// ============================================================
+@use '../abstracts/tokens' as *;
+@use '../abstracts/mixins' as *;
+
+.blocks {
+    > * + * {
+        margin-top: var(--sp-6);
+    }
+}
+
+// TextBlock / HtmlBlock / MarkdownBlock
+.block-body {
+    > :first-child { margin-top: 0; }
+    > :last-child { margin-bottom: 0; }
+
+    img {
+        border-radius: var(--radius-md);
+    }
+}
+
+// ImageBlock
+.block-image {
+    img {
+        width: 100%;
+        border-radius: var(--radius-md);
+        box-shadow: var(--shadow-md);
+    }
+
+    figcaption {
+        margin-top: var(--sp-2);
+        font-size: var(--fs-sm);
+        color: var(--c-ink-muted);
+        text-align: center;
+    }
+}
+
+// ImageGalleryBlock — CSS scroll-snap, no JS carousel required
+.block-gallery {
+    &__track {
+        display: flex;
+        gap: var(--sp-3);
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        padding-bottom: var(--sp-2);
+        border-radius: var(--radius-md);
+    }
+
+    &__item {
+        flex: 0 0 min(100%, 32rem);
+        scroll-snap-align: start;
+
+        img {
+            width: 100%;
+            aspect-ratio: 3 / 2;
+            object-fit: cover;
+            border-radius: var(--radius-md);
+        }
+    }
+}
+
+// QuoteBlock
+.block-quote {
+    margin: 0;
+    padding: var(--sp-5) var(--sp-6);
+    border-inline-start: 4px solid var(--c-accent);
+    background: var(--c-accent-soft);
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    font-family: var(--font-display);
+    font-size: var(--fs-md);
+    color: var(--c-ink);
+
+    footer {
+        margin-top: var(--sp-3);
+        font-family: var(--font-body);
+        font-size: var(--fs-sm);
+        color: var(--c-ink-muted);
+    }
+}
+
+// SeparatorBlock
+.block-separator {
+    max-width: 8rem;
+    margin-inline: auto;
+    border-top: 2px solid var(--c-accent);
+}
+
+// Audio / Video blocks
+.block-media {
+    audio,
+    video {
+        width: 100%;
+        border-radius: var(--radius-md);
+    }
+}
+
+// ColumnBlock
+.block-columns {
+    display: grid;
+    gap: var(--sp-5);
+    grid-template-columns: 1fr;
+
+    @include from($bp-md) {
+        grid-auto-flow: column;
+        grid-auto-columns: 1fr;
+    }
+}
+
+// PageBlock / PostBlock — content reference cards
+.block-ref {
+    display: flex;
+    flex-direction: column;
+    background: var(--c-surface);
+    border: 1px solid var(--c-line);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+
+    @include from($bp-md) {
+        flex-direction: row;
+    }
+
+    &__media {
+        flex: 0 0 40%;
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    }
+
+    &__body {
+        padding: var(--sp-5);
+    }
+
+    &__title a {
+        color: var(--c-ink);
+        text-decoration: none;
+
+        &:hover {
+            color: var(--c-accent-strong);
+        }
+    }
+}

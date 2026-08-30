@@ -2,19 +2,16 @@
 
 @if (Model.Body.Post != null)
 {
-    <div class="card h-100">
+    <article class="block-ref">
         @if (Model.Body.Post.PrimaryImage.HasValue)
         {
-            <div class="card-img-wrapper">
-                <a href="@WebApp.Url(Model)">
-                    <img class="card-img-top" src="@Url.Content(WebApp.Media.ResizeImage(Model.Body.Post.PrimaryImage, 540, 300))" alt="@Model.Body.Post.Title">
-                </a>
+            <div class="block-ref__media">
+                <img src="@Url.Content(WebApp.Media.ResizeImage(Model.Body.Post.PrimaryImage, 640, 420))" alt="" loading="lazy">
             </div>
         }
-        <div class="card-body d-flex flex-column">
-            <h5 class="card-title">@Model.Body.Post.Title</h5>
-            <p class="card-text flex-grow-1">@Html.Raw(Model.Body.Post.Excerpt)</p>
-            <a href="@WebApp.Url(Model)" class="read-more mt-auto">Read Article</a>
+        <div class="block-ref__body">
+            <h3 class="block-ref__title"><a href="@WebApp.Url(Model)">@Model.Body.Post.Title</a></h3>
+            <p>@Html.Raw(Model.Body.Post.Excerpt)</p>
         </div>
-    </div>
+    </article>
 }

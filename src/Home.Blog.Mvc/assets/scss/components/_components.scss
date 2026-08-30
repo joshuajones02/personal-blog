@@ -1,0 +1,285 @@
+// ============================================================
+// FABLE — Components: buttons, cards, pagination, forms, tags
+// ============================================================
+@use '../abstracts/tokens' as *;
+@use '../abstracts/mixins' as *;
+
+// --- Buttons ---
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--sp-2);
+    padding: var(--sp-3) var(--sp-5);
+    border: 1px solid transparent;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: var(--fs-sm);
+    text-decoration: none;
+    cursor: pointer;
+    transition: background var(--dur) var(--ease), color var(--dur) var(--ease), border-color var(--dur) var(--ease);
+    @include focus-ring;
+
+    &--primary {
+        background: var(--c-ink);
+        color: var(--c-paper);
+
+        &:hover {
+            background: var(--c-accent-strong);
+            color: var(--c-paper);
+        }
+    }
+
+    &--ghost {
+        border-color: var(--c-line);
+        background: var(--c-surface);
+        color: var(--c-ink);
+
+        &:hover {
+            border-color: var(--c-accent);
+            color: var(--c-accent-strong);
+        }
+    }
+}
+
+// --- Post card (archive listing) ---
+.card-grid {
+    display: grid;
+    gap: var(--sp-5);
+    grid-template-columns: 1fr;
+
+    @include from($bp-md) {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    @include from($bp-lg) {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.post-card {
+    display: flex;
+    flex-direction: column;
+    background: var(--c-surface);
+    border: 1px solid var(--c-line);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    transition: box-shadow var(--dur) var(--ease), transform var(--dur) var(--ease);
+
+    &:hover,
+    &:focus-within {
+        box-shadow: var(--shadow-md);
+        transform: translateY(-2px);
+    }
+
+    &__media img {
+        aspect-ratio: 16 / 9;
+        width: 100%;
+        object-fit: cover;
+    }
+
+    &__body {
+        display: flex;
+        flex-direction: column;
+        gap: var(--sp-2);
+        flex: 1;
+        padding: var(--sp-5);
+    }
+
+    &__category {
+        font-size: var(--fs-sm);
+        font-weight: 600;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--c-accent);
+    }
+
+    &__title {
+        font-size: var(--fs-lg);
+
+        a {
+            color: var(--c-ink);
+            text-decoration: none;
+
+            &:hover {
+                color: var(--c-accent-strong);
+            }
+        }
+    }
+
+    &__excerpt {
+        margin: 0;
+        color: var(--c-ink-muted);
+        @include clamp-lines(3);
+    }
+
+    &__meta {
+        margin-top: auto;
+        padding-top: var(--sp-3);
+        font-size: var(--fs-sm);
+        color: var(--c-ink-muted);
+    }
+}
+
+// --- Tags ---
+.tag-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sp-2);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.tag {
+    display: inline-block;
+    padding: var(--sp-1) var(--sp-3);
+    border-radius: 999px;
+    background: var(--c-accent-soft);
+    color: var(--c-accent-strong);
+    font-size: var(--fs-sm);
+    font-weight: 500;
+    text-decoration: none;
+
+    &:hover {
+        background: var(--c-accent);
+        color: #fff;
+    }
+}
+
+// --- Pagination ---
+.pagination {
+    display: flex;
+    justify-content: center;
+    gap: var(--sp-2);
+    margin-top: var(--sp-8);
+
+    ul {
+        display: contents;
+        list-style: none;
+    }
+
+    a,
+    span {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 2.75rem;
+        min-height: 2.75rem;
+        padding-inline: var(--sp-3);
+        border: 1px solid var(--c-line);
+        border-radius: var(--radius-sm);
+        background: var(--c-surface);
+        color: var(--c-ink-soft);
+        font-weight: 500;
+        text-decoration: none;
+    }
+
+    a:hover {
+        border-color: var(--c-accent);
+        color: var(--c-accent-strong);
+    }
+
+    [aria-current='page'] {
+        background: var(--c-ink);
+        border-color: var(--c-ink);
+        color: var(--c-paper);
+    }
+
+    .is-disabled {
+        opacity: 0.45;
+    }
+}
+
+// --- Forms (comment form) ---
+.form-field {
+    margin-bottom: var(--sp-4);
+
+    label {
+        display: block;
+        margin-bottom: var(--sp-1);
+        font-size: var(--fs-sm);
+        font-weight: 600;
+        color: var(--c-ink);
+    }
+
+    input,
+    textarea {
+        width: 100%;
+        padding: var(--sp-3);
+        border: 1px solid var(--c-line);
+        border-radius: var(--radius-sm);
+        background: var(--c-surface);
+        color: var(--c-ink);
+        transition: border-color var(--dur) var(--ease);
+        @include focus-ring;
+
+        &:hover {
+            border-color: var(--c-ink-muted);
+        }
+    }
+
+    textarea {
+        min-height: 8rem;
+        resize: vertical;
+    }
+}
+
+.form-grid {
+    @include from($bp-md) {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0 var(--sp-4);
+    }
+}
+
+// --- Comments ---
+.comments {
+    margin-top: var(--sp-8);
+    padding-top: var(--sp-6);
+    border-top: 1px solid var(--c-line);
+}
+
+.comment {
+    display: flex;
+    gap: var(--sp-4);
+    padding-block: var(--sp-5);
+
+    & + & {
+        border-top: 1px solid var(--c-line);
+    }
+
+    &__avatar {
+        width: 3rem;
+        height: 3rem;
+        border-radius: 50%;
+        flex-shrink: 0;
+    }
+
+    &__author {
+        font-weight: 600;
+        color: var(--c-ink);
+    }
+
+    &__date {
+        font-size: var(--fs-sm);
+        color: var(--c-ink-muted);
+    }
+
+    &__body p:last-child {
+        margin-bottom: 0;
+    }
+}
+
+// --- Utilities ---
+.visually-hidden {
+    @include visually-hidden;
+}
+
+// --- Alerts ---
+.alert {
+    padding: var(--sp-4);
+    border-radius: var(--radius-md);
+    background: var(--c-accent-soft);
+    color: var(--c-accent-strong);
+    border: 1px solid color-mix(in srgb, var(--c-accent) 30%, transparent);
+}

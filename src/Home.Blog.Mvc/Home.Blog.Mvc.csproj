@@ -36,4 +36,8 @@
     <ProjectReference Include="..\Home.Blog.Core\Home.Blog.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="assets\scss\inc\" />
+  </ItemGroup>
+
 </Project>

@@ -1,0 +1,37 @@
+// ============================================================
+// FABLE — Typography
+// ============================================================
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    line-height: var(--lh-tight);
+    color: var(--c-ink);
+    text-wrap: balance;
+}
+
+h1 { font-size: var(--fs-2xl); }
+h2 { font-size: var(--fs-xl); }
+h3 { font-size: var(--fs-lg); }
+h4 { font-size: var(--fs-md); }
+
+p {
+    margin-block: var(--sp-4);
+}
+
+small {
+    font-size: var(--fs-sm);
+}
+
+code, pre {
+    font-family: var(--font-mono);
+    font-size: 0.9em;
+}
+
+pre {
+    padding: var(--sp-4);
+    background: var(--c-ink);
+    color: var(--c-paper);
+    border-radius: var(--radius-md);
+    overflow-x: auto;
+}
