@@ -21,10 +21,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="15.1.3" />
+    <!-- Pinned to 12.0.1: Piranha.Data.EF 12.2.0 is compiled against AutoMapper 12's
+         MapperConfiguration ctor; AutoMapper 13+ breaks it at runtime with a
+         MethodAccessException in Piranha.Data.EF.Module..cctor().
+         NU1903 (GHSA-rvv3-g6hj-g44x) suppressed: the patched version (13.0.0) is
+         binary-incompatible with Piranha 12.2. Revisit when Piranha updates AutoMapper. -->
+    <PackageReference Include="AutoMapper" Version="[12.0.1]" NoWarn="NU1903" />
     <PackageReference Include="Azure.Identity" Version="1.21.0" />
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.0.1" />
-    <PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.6" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="5.9.0" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="7.0.2" />
     <PackageReference Include="Piranha.AspNetCore" Version="12.2.0" />
     <PackageReference Include="Piranha.AspNetCore.Identity.SQLServer" Version="12.2.0" />
     <PackageReference Include="Piranha.AttributeBuilder" Version="12.2.0" />
