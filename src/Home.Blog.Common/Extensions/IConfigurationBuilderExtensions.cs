@@ -36,7 +36,7 @@ public static class IConfigurationBuilderExtensions
         }
     }
 
-    private static void EnumerateJsonAndSetEnvironmentVariables(this JsonElement element, string parentSectionName = null)
+    private static void EnumerateJsonAndSetEnvironmentVariables(this JsonElement element, string? parentSectionName = null)
     {
         foreach (var property in element.EnumerateObject())
         {

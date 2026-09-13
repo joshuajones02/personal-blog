@@ -2,7 +2,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="Minio" Version="7.0.0" />
-		<PackageReference Include="Piranha" Version="12.0.0" />
+		<PackageReference Include="Piranha" Version="12.2.0" />
 	</ItemGroup>
 	
 </Project>

@@ -3,7 +3,9 @@
   <PropertyGroup>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerfileContext>..\..</DockerfileContext>
-    <Dockerfile>..\..\Dockerfile</Dockerfile>
+    <Dockerfile>Dockerfile</Dockerfile>
+    <ContainerRepository>homeblog</ContainerRepository>
+    <ContainerImageTag>latest</ContainerImageTag>
   </PropertyGroup>
 
   <ItemGroup>
@@ -21,15 +23,26 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.6" />
-    <PackageReference Include="Piranha.AspNetCore" Version="12.0.0" />
-    <PackageReference Include="Piranha.AspNetCore.Identity.SQLServer" Version="12.0.0" />
-    <PackageReference Include="Piranha.AttributeBuilder" Version="12.0.0" />
-    <PackageReference Include="Piranha.Data.EF.SQLServer" Version="12.0.0" />
-    <PackageReference Include="Piranha.ImageSharp" Version="12.0.0" />
-    <PackageReference Include="Piranha.Manager" Version="12.0.0" />
-    <PackageReference Include="Piranha.Manager.LocalAuth" Version="12.0.0" />
-    <PackageReference Include="Piranha.Manager.TinyMCE" Version="12.0.0" />
+    <!-- Pinned to 12.0.1: Piranha.Data.EF 12.2.0 is compiled against AutoMapper 12's
+         MapperConfiguration ctor; AutoMapper 13+ breaks it at runtime with a
+         MethodAccessException in Piranha.Data.EF.Module..cctor().
+         NU1903 (GHSA-rvv3-g6hj-g44x) suppressed: the patched version (13.0.0) is
+         binary-incompatible with Piranha 12.2. Revisit when Piranha updates AutoMapper. -->
+    <PackageReference Include="AutoMapper" Version="[12.0.1]" NoWarn="NU1903" />
+    <PackageReference Include="Azure.Identity" Version="1.21.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="5.9.0" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="7.0.2" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.23.0" />
+    <PackageReference Include="Piranha.AspNetCore" Version="12.2.0" />
+    <PackageReference Include="Piranha.AspNetCore.Identity.SQLServer" Version="12.2.0" />
+    <PackageReference Include="Piranha.AttributeBuilder" Version="12.2.0" />
+    <PackageReference Include="Piranha.Data.EF.SQLServer" Version="12.2.0" />
+    <PackageReference Include="Piranha.ImageSharp" Version="12.2.0" />
+    <PackageReference Include="Piranha.Manager" Version="12.2.0" />
+    <PackageReference Include="Piranha.Manager.LocalAuth" Version="12.2.0" />
+    <PackageReference Include="Piranha.Manager.TinyMCE" Version="12.2.0" />
+    <PackageReference Include="SixLabors.ImageSharp" Version="2.1.13" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.22.0" />
   </ItemGroup>
 
   <ItemGroup>

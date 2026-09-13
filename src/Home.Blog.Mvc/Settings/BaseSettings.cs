@@ -9,5 +9,5 @@ public abstract class BaseSettings
         EnvironmentExtensions.GetEnvironmentVariable<T>(key, @default);
 
     public T GetRequired<T>(string key) =>
-        EnvironmentExtensions.GetRequiredEnvironmentVariable<T>(key);
+        EnvironmentExtensions.GetRequiredEnvironmentVariable<T>(key)!;
 }

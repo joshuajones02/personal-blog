@@ -13,6 +13,7 @@ public class MinioStorage : IStorage
     private readonly IMinioClient _minioClient;
     private readonly MinioStorageNaming _naming;
     private readonly string _endpoint;
+    private readonly string? _publicEndpoint;
     private readonly bool _secure;
 
     /// <summary>
@@ -23,18 +24,21 @@ public class MinioStorage : IStorage
     /// <param name="naming">How uploaded media files should be named</param>
     /// <param name="endpoint">The MinIO endpoint</param>
     /// <param name="secure">Whether SSL is enabled</param>
+    /// <param name="publicEndpoint">Optional public host name used when generating public URLs (e.g., "media.mydomain.com")</param>
     public MinioStorage(
         IMinioClient minioClient,
         string bucketName = "uploads",
         MinioStorageNaming naming = MinioStorageNaming.UniqueFileNames,
         string endpoint = "localhost:9000",
-        bool secure = false)
+        bool secure = false,
+        string? publicEndpoint = null)
     {
         _minioClient = minioClient;
         _bucketName = bucketName;
         _naming = naming;
         _endpoint = endpoint;
         _secure = secure;
+        _publicEndpoint = publicEndpoint;
     }
 
     /// <summary>
@@ -53,13 +57,14 @@ public class MinioStorage : IStorage
     /// <param name="media">The media object</param>
     /// <param name="filename">The file name</param>
     /// <returns>The public URL</returns>
-    public string GetPublicUrl(Piranha.Models.Media media, string filename)
+    public string? GetPublicUrl(Piranha.Models.Media media, string filename)
     {
         if (!string.IsNullOrWhiteSpace(filename))
         {
             var protocol = _secure ? "https" : "http";
+            var host = string.IsNullOrWhiteSpace(_publicEndpoint) ? _endpoint : _publicEndpoint;
             var objectName = GetResourceName(media, filename);
-            return $"{protocol}://{_endpoint}/{_bucketName}/{objectName}";
+            return $"{protocol}://{host}/{_bucketName}/{objectName}";
         }
 
         return null;
