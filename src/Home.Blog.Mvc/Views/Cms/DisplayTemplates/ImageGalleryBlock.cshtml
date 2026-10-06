@@ -1,33 +1,39 @@
 @model Piranha.Extend.Blocks.ImageGalleryBlock
 @using Piranha.Extend.Blocks
 @{
-    var unique = "gallery-" + Guid.NewGuid().ToString();
     var images = Model.Items
-        .Where(i => i.GetType() == typeof(ImageBlock) && ((ImageBlock)i).Body.HasValue)
+        .OfType<ImageBlock>()
+        .Where(i => i.Body.HasValue)
         .ToList();
 }
-
-<div id="@unique" class="carousel slide gallery-block" data-bs-ride="carousel">
-    <div class="carousel-indicators">
-        @for (var n = 0; n < images.Count; n++)
-        {
-            <button type="button" data-bs-target="#@unique" data-bs-slide-to="@n" class="@(n == 0 ? "active" : "")" aria-current="@(n == 0 ? "true" : "false")" aria-label="Slide @(n + 1)"></button>
-        }
+@if (images.Count > 0)
+{
+    <div class="gallery" role="group" aria-roledescription="carousel" aria-label="Image gallery">
+        <button type="button" class="gallery__control gallery__control--prev" hidden>
+            <span aria-hidden="true">&larr;</span>
+            <span class="visually-hidden">Previous images</span>
+        </button>
+        <ul class="gallery__track">
+            @for (var n = 0; n < images.Count; n++)
+            {
+                var media = images[n].Body.Media;
+                <li class="gallery__item" aria-label="@(n + 1) of @images.Count">
+                    <img src="@Url.Content(WebApp.Media.ResizeImage(images[n].Body.Media, 768, 512))"
+                         srcset="@Url.Content(WebApp.Media.ResizeImage(images[n].Body.Media, 480, 320)) 480w,
+                                 @Url.Content(WebApp.Media.ResizeImage(images[n].Body.Media, 768, 512)) 768w,
+                                 @Url.Content(WebApp.Media.ResizeImage(images[n].Body.Media, 1104, 736)) 1104w"
+                         sizes="(min-width: 48em) 38rem, calc(100vw - 2.5rem)"
+                         width="768"
+                         height="512"
+                         alt="@(media?.AltText ?? media?.Title)"
+                         loading="lazy"
+                         decoding="async">
+                </li>
+            }
+        </ul>
+        <button type="button" class="gallery__control gallery__control--next" hidden>
+            <span aria-hidden="true">&rarr;</span>
+            <span class="visually-hidden">Next images</span>
+        </button>
     </div>
-    <div class="carousel-inner">
-        @foreach (var item in images)
-        {
-            <div class="carousel-item @(item == images.First() ? "active" : "")">
-                <img src="@Url.Content(WebApp.Media.ResizeImage(((ImageBlock)item).Body.Media, 1100, 550))" class="d-block w-100" alt="@(((ImageBlock)item).Body.Media?.AltText ?? ((ImageBlock)item).Body.Media?.Title)" loading="lazy">
-            </div>
-        }
-    </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#@unique" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#@unique" data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span>
-    </button>
-</div>
+}

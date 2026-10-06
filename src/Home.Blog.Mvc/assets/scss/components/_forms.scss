@@ -14,6 +14,11 @@
     }
 }
 
+.form-field__optional {
+    font-weight: 400;
+    color: var(--color-text-muted);
+}
+
 input[type="text"],
 input[type="email"],
 input[type="url"],

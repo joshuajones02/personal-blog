@@ -1,108 +1,138 @@
 @model StandardPost
+@using System.Text.Json
 @{
     ViewData["Title"] = !string.IsNullOrEmpty(Model.MetaTitle) ? Model.MetaTitle : Model.Title;
-    var hasImage = Model.PrimaryImage.HasValue;
+
     var archive = await WebApp.Api.Pages.GetByIdAsync(Model.BlogId);
+    var archivePermalink = archive?.Permalink ?? string.Empty;
+
+    var hero = new HeroViewModel
+    {
+        Title = Model.Title,
+        ExcerptHtml = Model.Excerpt,
+        Image = Model.PrimaryImage,
+        EyebrowText = Model.Category?.Title,
+        EyebrowUrl = Model.Category != null ? $"{archivePermalink}/category/{Model.Category.Slug}" : null,
+        Published = Model.IsPublished ? Model.Published : null,
+        CommentCount = Model.CommentCount,
+        ShowCommentCount = Model.EnableComments,
+        Tags = Model.Tags
+            .Select(t => new HeroLink(t.Slug, $"{archivePermalink}/tag/{t.Slug}"))
+            .ToList()
+    };
+
+    // BlogPosting structured data. Serialized with System.Text.Json so
+    // strings are safely escaped for inline <script> output.
+    var origin = $"{Context.Request.Scheme}://{Context.Request.Host}";
+    var jsonLd = new Dictionary<string, object>
+    {
+        ["@context"] = "https://schema.org",
+        ["@type"] = "BlogPosting",
+        ["headline"] = Model.Title,
+        ["mainEntityOfPage"] = origin + Model.Permalink,
+        ["author"] = new Dictionary<string, object>
+        {
+            ["@type"] = "Person",
+            ["name"] = "Josh & Shannon"
+        },
+        ["publisher"] = new Dictionary<string, object>
+        {
+            ["@type"] = "Organization",
+            ["name"] = "Josh & Shannon Travels"
+        }
+    };
+    if (Model.IsPublished && Model.Published.HasValue)
+    {
+        jsonLd["datePublished"] = Model.Published.Value.ToString("yyyy-MM-dd");
+    }
+    if (!string.IsNullOrWhiteSpace(Model.Excerpt))
+    {
+        jsonLd["description"] = Model.Excerpt;
+    }
+    if (Model.PrimaryImage.HasValue)
+    {
+        jsonLd["image"] = origin + Url.Content(WebApp.Media.ResizeImage(Model.PrimaryImage, 1200));
+    }
 }
 @section head {
     @WebApp.MetaTags(Model)
+    <meta property="og:type" content="article">
+    <script type="application/ld+json">@Html.Raw(JsonSerializer.Serialize(jsonLd))</script>
 }
 
-<header class="page-hero@(hasImage ? " has-image" : "")" @(hasImage ? $"style=background-image:url({ @Url.Content(WebApp.Media.ResizeImage(Model.PrimaryImage, 1920, 700)) })" : "")>
-    <div class="dimmer"></div>
-    <div class="container text-center">
-        <a href="@archive.Permalink/category/@Model.Category.Slug" class="subheading">@Model.Category.Title</a>
-        <h1>@Model.Title</h1>
-        <p class="post-meta mb-3">
-            @if (Model.IsPublished && Model.Published.HasValue)
-            {
-                <span>
-                    @Model.Published.Value.ToString("MMMM d, yyyy")
-                </span>
-            }
-            @if (Model.EnableComments && Model.CommentCount > 0)
-            {
-                <span>
-                    <a href="#comments">@Model.CommentCount @(Model.CommentCount == 1 ? "comment" : "comments")</a>
-                </span>
-            }
-        </p>
-        @if (!string.IsNullOrWhiteSpace(Model.Excerpt))
-        {
-            <div class="row justify-content-center">
-                <div class="col-lg-8 lead">
-                    @Html.Raw(Model.Excerpt)
-                </div>
-            </div>
-        }
-        @if (Model.Tags.Any())
-        {
-            <div class="mt-3">
-                @foreach (var tag in Model.Tags)
-                {
-                    <a href="@archive.Permalink/tag/@tag.Slug" class="tag">#@tag.Slug</a>
-                }
-            </div>
-        }
-    </div>
-</header>
+<partial name="Partials/_PageHero" model="hero" />
 
-<main>
-    <article>
-        @foreach (var block in Model.Blocks)
-        {
-            <div class="block @block.CssName()">
-                <div class="container">
-                    <div class="row justify-content-center">
-                        <div class="col-lg-9">
-                            @Html.DisplayFor(m => block, block.GetType().Name)
-                        </div>
-                    </div>
-                </div>
-            </div>
-        }
-    </article>
-    @if (Model.EnableComments)
+<article class="post-article">
+    @foreach (var block in Model.Blocks)
     {
-        <section id="comments" class="container comments" aria-label="Comments">
-            <div class="row justify-content-center">
-                <div class="col-lg-9">
-                    @if (Model.IsCommentsOpen)
-                    {
-                        <div class="alert alert-comment mt-2 mb-5">
-                            <form action="@Model.Permalink/comment" method="post">
-                                @Html.AntiForgeryToken()
-                                @Html.Hidden("Id", Model.Id)
+        <div class="block @block.CssName()">
+            <div class="container">
+                @Html.DisplayFor(m => block, block.GetType().Name)
+            </div>
+        </div>
+    }
+</article>
 
-                                <h3>Leave a Comment</h3>
-                                <p class="mb-4 text-muted">
-                                    Your email won't be shared publicly. We'll only use it for your Gravatar image.
-                                </p>
-                                <div class="row g-3">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <input name="CommentAuthor" type="text" class="form-control" placeholder="Your name" required>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <input name="CommentEmail" type="email" class="form-control" placeholder="Your email address" required>
-                                    </div>
-                                </div>
-                                <div class="form-group mt-3">
-                                    <input name="CommentUrl" type="url" class="form-control" placeholder="Website (optional)">
-                                </div>
-                                <div class="form-group mt-3">
-                                    <textarea name="CommentBody" rows="5" class="form-control" placeholder="Share your thoughts..." required></textarea>
-                                </div>
-                                <div class="form-group text-start mt-3">
-                                    <button class="btn btn-primary">Post Comment</button>
-                                </div>
-                            </form>
+@if (Model.EnableComments)
+{
+    <section id="comments" class="container comments" aria-label="Comments">
+        <div class="comments__inner">
+            <h2 class="comments__title">
+                Comments
+                @if (Model.CommentCount > 0)
+                {
+                    <span class="comments__count">(@Model.CommentCount)</span>
+                }
+            </h2>
+
+            @if (Model.IsCommentsOpen)
+            {
+                <div class="comment-form">
+                    <form action="@Model.Permalink/comment" method="post">
+                        @Html.AntiForgeryToken()
+                        @Html.Hidden("Id", Model.Id)
+
+                        <h3>Leave a comment</h3>
+                        <p class="comment-form__hint">
+                            Your email won't be shared publicly. We'll only use it for your Gravatar image.
+                        </p>
+
+                        <div class="comment-form__grid">
+                            <div class="form-field">
+                                <label for="comment-author">Name</label>
+                                <input id="comment-author" name="CommentAuthor" type="text" autocomplete="name" required>
+                            </div>
+                            <div class="form-field">
+                                <label for="comment-email">Email</label>
+                                <input id="comment-email" name="CommentEmail" type="email" autocomplete="email" required>
+                            </div>
+                            <div class="form-field form-field--wide">
+                                <label for="comment-url">Website <span class="form-field__optional">(optional)</span></label>
+                                <input id="comment-url" name="CommentUrl" type="url" autocomplete="url">
+                            </div>
+                            <div class="form-field form-field--wide">
+                                <label for="comment-body">Comment</label>
+                                <textarea id="comment-body" name="CommentBody" rows="5" required></textarea>
+                            </div>
                         </div>
-                    }
+
+                        <div class="comment-form__actions">
+                            <button type="submit" class="button">Post comment</button>
+                        </div>
+                    </form>
+                </div>
+            }
+
+            @if (Model.Comments.Any())
+            {
+                <div class="comments__list">
                     @Html.DisplayFor(m => m.Comments)
                 </div>
-            </div>
-        </section>
-    }
-</main>
+            }
+            else
+            {
+                <p class="comments__empty">No comments yet — be the first to share your thoughts.</p>
+            }
+        </div>
+    </section>
+}

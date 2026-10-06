@@ -1,0 +1,42 @@
+@model PaginationViewModel
+@if (Model.TotalPages > 1)
+{
+    var current = Model.CurrentPage;
+    var total = Model.TotalPages;
+
+    <nav class="pagination" aria-label="Pagination">
+        <ul class="pagination__list">
+            @if (current == 1)
+            {
+                <li><span class="pagination__link"><span aria-hidden="true">&laquo;</span><span class="visually-hidden">First page</span></span></li>
+                <li><span class="pagination__link"><span aria-hidden="true">&lsaquo;</span><span class="visually-hidden">Previous page</span></span></li>
+            }
+            else
+            {
+                <li><a class="pagination__link" href="@Model.BaseUrl/page/1"><span aria-hidden="true">&laquo;</span><span class="visually-hidden">First page</span></a></li>
+                <li><a class="pagination__link" href="@Model.BaseUrl/page/@(current - 1)"><span aria-hidden="true">&lsaquo;</span><span class="visually-hidden">Previous page</span></a></li>
+            }
+            @for (var n = 1; n <= total; n++)
+            {
+                if (n == current)
+                {
+                    <li><span class="pagination__link" aria-current="page"><span class="visually-hidden">Page </span>@n</span></li>
+                }
+                else
+                {
+                    <li><a class="pagination__link" href="@Model.BaseUrl/page/@n"><span class="visually-hidden">Page </span>@n</a></li>
+                }
+            }
+            @if (current == total)
+            {
+                <li><span class="pagination__link"><span aria-hidden="true">&rsaquo;</span><span class="visually-hidden">Next page</span></span></li>
+                <li><span class="pagination__link"><span aria-hidden="true">&raquo;</span><span class="visually-hidden">Last page</span></span></li>
+            }
+            else
+            {
+                <li><a class="pagination__link" href="@Model.BaseUrl/page/@(current + 1)"><span aria-hidden="true">&rsaquo;</span><span class="visually-hidden">Next page</span></a></li>
+                <li><a class="pagination__link" href="@Model.BaseUrl/page/@total"><span aria-hidden="true">&raquo;</span><span class="visually-hidden">Last page</span></a></li>
+            }
+        </ul>
+    </nav>
+}

@@ -1,0 +1,53 @@
+@model Piranha.Models.PostInfo
+@{
+    var featured = ViewData["Featured"] as bool? == true;
+    var categoryBase = ViewData["CategoryBase"] as string;
+    var useH3 = (ViewData["HeadingTag"] as string) == "h3";
+    var sizes = featured
+        ? "(min-width: 48em) 56vw, calc(100vw - 2.5rem)"
+        : "(min-width: 80em) 24rem, (min-width: 48em) 46vw, calc(100vw - 2.5rem)";
+}
+<article class="post-card@(featured ? " post-card--featured" : "")">
+    @if (Model.PrimaryImage.HasValue)
+    {
+        <a class="post-card__media" href="@Model.Permalink" aria-hidden="true" tabindex="-1">
+            <img src="@Url.Content(WebApp.Media.ResizeImage(Model.PrimaryImage, 768))"
+                 srcset="@Url.Content(WebApp.Media.ResizeImage(Model.PrimaryImage, 480)) 480w,
+                         @Url.Content(WebApp.Media.ResizeImage(Model.PrimaryImage, 768)) 768w,
+                         @Url.Content(WebApp.Media.ResizeImage(Model.PrimaryImage, 1140)) 1140w"
+                 sizes="@sizes"
+                 alt="@(Model.PrimaryImage.Media?.AltText ?? "")"
+                 loading="lazy"
+                 decoding="async">
+        </a>
+    }
+    <div class="post-card__body">
+        <p class="post-card__meta">
+            @if (Model.Category != null && !string.IsNullOrWhiteSpace(categoryBase))
+            {
+                <a class="post-card__category" href="@categoryBase/category/@Model.Category.Slug">@Model.Category.Title</a>
+            }
+            @if (Model.IsPublished && Model.Published.HasValue)
+            {
+                <time datetime="@Model.Published.Value.ToString("yyyy-MM-dd")">@Model.Published.Value.ToString("MMMM d, yyyy")</time>
+            }
+            @if (Model.EnableComments && Model.CommentCount > 0)
+            {
+                <a href="@Model.Permalink#comments">@Model.CommentCount @(Model.CommentCount == 1 ? "comment" : "comments")</a>
+            }
+        </p>
+        @if (useH3)
+        {
+            <h3 class="post-card__title"><a href="@Model.Permalink">@Model.Title</a></h3>
+        }
+        else
+        {
+            <h2 class="post-card__title"><a href="@Model.Permalink">@Model.Title</a></h2>
+        }
+        @if (!string.IsNullOrWhiteSpace(Model.Excerpt))
+        {
+            <p class="post-card__excerpt">@Html.Raw(Model.Excerpt)</p>
+        }
+        <a class="read-more" href="@Model.Permalink">Continue reading<span class="visually-hidden">: @Model.Title</span></a>
+    </div>
+</article>

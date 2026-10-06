@@ -16,6 +16,13 @@
     margin-block-end: var(--space-5);
 }
 
+.comments__count {
+    font-family: var(--font-body);
+    font-size: 1.0625rem;
+    font-weight: 500;
+    color: var(--color-text-muted);
+}
+
 // ── Form panel ─────────────────────────────────────
 
 .comment-form {

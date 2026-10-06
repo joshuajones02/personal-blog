@@ -1,0 +1,61 @@
+@model HeroViewModel
+@{
+    var image = Model.Image;
+    var hasImage = image != null && image.HasValue;
+    var hasMeta = Model.Published.HasValue || (Model.ShowCommentCount && Model.CommentCount > 0);
+}
+<header class="page-hero @(hasImage ? "page-hero--image" : "page-hero--plain")">
+    @if (hasImage)
+    {
+        <div class="page-hero__media">
+            <img src="@Url.Content(WebApp.Media.ResizeImage(image!, 1280))"
+                 srcset="@Url.Content(WebApp.Media.ResizeImage(image!, 640)) 640w,
+                         @Url.Content(WebApp.Media.ResizeImage(image!, 960)) 960w,
+                         @Url.Content(WebApp.Media.ResizeImage(image!, 1280)) 1280w,
+                         @Url.Content(WebApp.Media.ResizeImage(image!, 1920)) 1920w"
+                 sizes="100vw"
+                 alt="@(image!.Media?.AltText ?? "")"
+                 fetchpriority="high"
+                 loading="eager"
+                 decoding="async">
+        </div>
+        <div class="page-hero__scrim"></div>
+    }
+    <div class="container page-hero__content">
+        @if (!string.IsNullOrWhiteSpace(Model.EyebrowText) && !string.IsNullOrWhiteSpace(Model.EyebrowUrl))
+        {
+            <a class="eyebrow page-hero__eyebrow" href="@Model.EyebrowUrl">@Model.EyebrowText</a>
+        }
+        else if (!string.IsNullOrWhiteSpace(Model.EyebrowText))
+        {
+            <span class="eyebrow page-hero__eyebrow">@Model.EyebrowText</span>
+        }
+        <h1 class="page-hero__title">@Model.Title</h1>
+        @if (hasMeta)
+        {
+            <p class="page-hero__meta">
+                @if (Model.Published.HasValue)
+                {
+                    <time datetime="@Model.Published.Value.ToString("yyyy-MM-dd")">@Model.Published.Value.ToString("MMMM d, yyyy")</time>
+                }
+                @if (Model.ShowCommentCount && Model.CommentCount > 0)
+                {
+                    <a href="#comments">@Model.CommentCount @(Model.CommentCount == 1 ? "comment" : "comments")</a>
+                }
+            </p>
+        }
+        @if (!string.IsNullOrWhiteSpace(Model.ExcerptHtml))
+        {
+            <div class="page-hero__excerpt lead">@Html.Raw(Model.ExcerptHtml)</div>
+        }
+        @if (Model.Tags.Any())
+        {
+            <ul class="page-hero__tags">
+                @foreach (var tag in Model.Tags)
+                {
+                    <li><a class="tag" href="@tag.Url">#@tag.Title</a></li>
+                }
+            </ul>
+        }
+    </div>
+</header>

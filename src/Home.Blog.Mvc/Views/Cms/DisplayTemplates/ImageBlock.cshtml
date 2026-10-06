@@ -1,9 +1,34 @@
 @model Piranha.Extend.Blocks.ImageBlock
-
-<figure>
-    <img src="@Url.Content(WebApp.Media.ResizeImage(Model, 1110))" alt="@(Model.Body.Media?.AltText ?? Model.Body.Media?.Title)" loading="lazy">
-    @if (!string.IsNullOrWhiteSpace(Model.Body.Media?.Description))
+@if (Model.Body.HasValue)
+{
+    var media = Model.Body.Media;
+    // Mirror the aspect handling of WebApp.Media.ResizeImage(block, width)
+    // so the box ratio is known before the image loads (no CLS).
+    var ratio = Model.Aspect.Value switch
     {
-        <figcaption>@Model.Body.Media.Description</figcaption>
-    }
-</figure>
+        Piranha.Extend.Blocks.ImageAspect.Landscape => 3m / 2m,
+        Piranha.Extend.Blocks.ImageAspect.Portrait => 3m / 4m,
+        Piranha.Extend.Blocks.ImageAspect.Widescreen => 16m / 9m,
+        Piranha.Extend.Blocks.ImageAspect.Square => 1m,
+        _ => media?.Width > 0 && media?.Height > 0 ? (decimal)media.Width / media.Height.Value : 0m
+    };
+    var width = 816;
+    var height = ratio > 0 ? (int?)Math.Round(width / ratio) : null;
+
+    <figure class="media-figure">
+        <img src="@Url.Content(WebApp.Media.ResizeImage(Model, width))"
+             srcset="@Url.Content(WebApp.Media.ResizeImage(Model, 480)) 480w,
+                     @Url.Content(WebApp.Media.ResizeImage(Model, 816)) 816w,
+                     @Url.Content(WebApp.Media.ResizeImage(Model, 1248)) 1248w"
+             sizes="(min-width: 57em) 52rem, calc(100vw - 2.5rem)"
+             width="@width"
+             height="@height"
+             alt="@(media?.AltText ?? media?.Title)"
+             loading="lazy"
+             decoding="async">
+        @if (!string.IsNullOrWhiteSpace(media?.Description))
+        {
+            <figcaption>@media.Description</figcaption>
+        }
+    </figure>
+}
