@@ -33,7 +33,9 @@
     color: var(--color-accent-strong);
 
     &:hover {
-        color: var(--color-accent);
+        color: var(--color-accent-strong);
+        text-decoration: underline;
+        text-underline-offset: .3em;
     }
 }
 
@@ -69,10 +71,9 @@
 // ── Image variant ──────────────────────────────────
 
 .page-hero--image {
-    // Deterministic height: no CLS while the image loads.
-    aspect-ratio: 5 / 2;
-    min-height: 27rem;
-    max-height: min(46rem, 78vh);
+    // Deterministic, viewport-derived height: no CLS while the
+    // image loads and no transferred min-width overflow.
+    height: clamp(27rem, 24vw + 17rem, 44rem);
     background: var(--color-inverse-bg);
 
     .page-hero__content {

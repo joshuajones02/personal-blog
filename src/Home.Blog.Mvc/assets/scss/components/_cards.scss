@@ -61,7 +61,9 @@
         color: var(--color-accent-strong);
 
         &:hover {
-            color: var(--color-accent);
+            color: var(--color-accent-strong);
+            text-decoration: underline;
+            text-underline-offset: .25em;
         }
     }
 }

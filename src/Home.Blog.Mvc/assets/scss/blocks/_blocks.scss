@@ -10,14 +10,14 @@ main .block {
     }
 
     // Generous air around visually heavy blocks
-    &.block-image-gallery,
-    &.block-columns,
-    &.block-quote {
+    &.image-gallery-block,
+    &.column-block,
+    &.quote-block {
         padding-block: var(--space-6);
     }
 }
 
-main .block-separator hr {
+main .separator-block hr {
     border: 0;
     width: 4.5rem;
     height: 2px;
