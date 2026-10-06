@@ -1,0 +1,52 @@
+// ───────────────────────────────────────────────────
+//  Site footer
+// ───────────────────────────────────────────────────
+@use "../abstracts/breakpoints" as bp;
+
+.site-footer {
+    background: var(--color-inverse-bg);
+    color: var(--color-inverse-muted);
+    padding-block: var(--space-8) var(--space-7);
+    font-size: .9375rem;
+}
+
+.site-footer__inner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+
+    @include bp.up("md") {
+        flex-direction: row;
+        align-items: flex-end;
+        justify-content: space-between;
+    }
+}
+
+.site-footer__brand {
+    font-family: var(--font-display);
+    font-optical-sizing: auto;
+    font-size: 1.5rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: var(--color-inverse-text);
+
+    .amp {
+        font-style: italic;
+        font-weight: 400;
+        color: var(--color-accent);
+    }
+}
+
+.site-footer__tagline {
+    margin-block-start: var(--space-2);
+    font-family: var(--font-display);
+    font-optical-sizing: auto;
+    font-style: italic;
+    font-size: 1.0625rem;
+}
+
+.site-footer__meta {
+    @include bp.up("md") {
+        text-align: right;
+    }
+}

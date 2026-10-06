@@ -1,0 +1,19 @@
+// ───────────────────────────────────────────────────
+//  Column block — responsive CSS grid
+// ───────────────────────────────────────────────────
+
+.columns {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr));
+    gap: var(--space-6);
+    align-items: stretch;
+}
+
+.columns__item {
+    min-width: 0;
+
+    // Nested prose should fill its column, not centre at measure
+    .prose {
+        max-width: none;
+    }
+}

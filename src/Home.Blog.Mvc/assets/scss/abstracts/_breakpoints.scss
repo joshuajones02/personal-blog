@@ -1,0 +1,35 @@
+// ───────────────────────────────────────────────────
+//  Breakpoint mixins (mobile-first). No CSS output.
+// ───────────────────────────────────────────────────
+@use "sass:map";
+
+$breakpoints: (
+    "sm": 40em,   //  640px
+    "md": 48em,   //  768px
+    "lg": 64em,   // 1024px
+    "xl": 80em,   // 1280px
+);
+
+@mixin up($name) {
+    $size: map.get($breakpoints, $name);
+
+    @if not $size {
+        @error "Unknown breakpoint `#{$name}`.";
+    }
+
+    @media (min-width: $size) {
+        @content;
+    }
+}
+
+@mixin down($name) {
+    $size: map.get($breakpoints, $name);
+
+    @if not $size {
+        @error "Unknown breakpoint `#{$name}`.";
+    }
+
+    @media (max-width: ($size - 0.0625em)) {
+        @content;
+    }
+}

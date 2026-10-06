@@ -1,0 +1,21 @@
+// ───────────────────────────────────────────────────
+//  Container + section rhythm
+// ───────────────────────────────────────────────────
+
+.container {
+    width: 100%;
+    max-width: calc(var(--container-max) + var(--container-pad) * 2);
+    margin-inline: auto;
+    padding-inline: var(--container-pad);
+}
+
+.full-bleed {
+    width: 100%;
+    max-width: none;
+    padding-inline: 0;
+}
+
+main {
+    min-height: 45vh;
+    padding-block-end: var(--space-9);
+}
