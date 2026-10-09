@@ -1,0 +1,47 @@
+// ───────────────────────────────────────────────────
+//  Pagination
+// ───────────────────────────────────────────────────
+
+.pagination {
+    margin-block-start: var(--space-8);
+}
+
+.pagination__list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-2);
+}
+
+.pagination__link,
+.pagination__ellipsis {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2.75rem;
+    min-height: 2.75rem;
+    padding-inline: var(--space-2);
+    border-radius: var(--radius-sm);
+    border: 1px solid transparent;
+    font-size: .9375rem;
+    font-weight: 500;
+    color: var(--color-text);
+}
+
+a.pagination__link:hover {
+    background: var(--color-surface-alt);
+    color: var(--color-primary-hover);
+    border-color: var(--color-border);
+}
+
+.pagination__link[aria-current="page"] {
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+    color: var(--color-surface);
+    font-weight: 600;
+}
+
+// Disabled steps render as <span>
+span.pagination__link:not([aria-current]) {
+    color: var(--color-border-strong);
+}

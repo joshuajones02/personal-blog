@@ -1,19 +1,19 @@
 @model Piranha.Models.Comment
 
-<div class="comment">
-    <img src="@WebApp.GetGravatarUrl(Model.Email, 96)" alt="" width="48" height="48" loading="lazy">
-    <div>
-        <div class="comment-meta">
+<article class="comment">
+    <img class="comment__avatar" src="@WebApp.GetGravatarUrl(Model.Email, 96)" alt="" width="48" height="48" loading="lazy" decoding="async">
+    <div class="comment__content">
+        <header class="comment__meta">
             @if (!string.IsNullOrEmpty(Model.Url))
             {
-                <a class="comment-author" href="@Model.Url" target="_blank" rel="noopener">@Model.Author</a>
+                <a class="comment__author" href="@Model.Url" target="_blank" rel="noopener">@Model.Author</a>
             }
             else
             {
-                <span class="comment-author">@Model.Author</span>
+                <span class="comment__author">@Model.Author</span>
             }
-            <span> · @Model.Created.ToString("MMM d, yyyy")</span>
-        </div>
-        <p>@Model.Body</p>
+            <time class="comment__date" datetime="@Model.Created.ToString("yyyy-MM-dd")">@Model.Created.ToString("MMM d, yyyy")</time>
+        </header>
+        <p class="comment__body">@Model.Body</p>
     </div>
-</div>
+</article>

@@ -1,0 +1,28 @@
+// ───────────────────────────────────────────────────
+//  Block rhythm + simple blocks (text/html/separator)
+// ───────────────────────────────────────────────────
+
+main .block {
+    padding-block: var(--space-5);
+
+    &:first-child {
+        padding-block-start: var(--space-7);
+    }
+
+    // Generous air around visually heavy blocks
+    &.image-gallery-block,
+    &.column-block,
+    &.quote-block {
+        padding-block: var(--space-6);
+    }
+}
+
+main .separator-block hr {
+    border: 0;
+    width: 4.5rem;
+    height: 2px;
+    border-radius: 1px;
+    margin: var(--space-4) auto;
+    background: var(--color-accent);
+    opacity: .65;
+}

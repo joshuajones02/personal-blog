@@ -1,13 +1,31 @@
 // ═══════════════════════════════════════════════════
-//  HORIZON — Modern Editorial Travel Theme
+//  HORIZON — Editorial Travel Theme
+//  Entry point. Module order matters:
+//  base → layout → components → blocks → pages
 // ═══════════════════════════════════════════════════
 
-@import "inc/general";
-@import "inc/type";
-@import "inc/buttons";
-@import "inc/cards";
-@import "inc/navbar";
-@import "inc/header";
-@import "inc/blocks";
-@import "inc/posts";
-@import "inc/pagination";
+@use "base/fonts";
+@use "base/tokens";
+@use "base/reset";
+@use "base/typography";
+@use "base/a11y";
+
+@use "layout/container";
+@use "layout/header";
+@use "layout/footer";
+@use "layout/hero";
+
+@use "components/buttons";
+@use "components/cards";
+@use "components/tags";
+@use "components/forms";
+@use "components/pagination";
+@use "components/comments";
+
+@use "blocks/blocks";
+@use "blocks/media";
+@use "blocks/gallery";
+@use "blocks/columns";
+@use "blocks/quote";
+
+@use "pages/archive";
